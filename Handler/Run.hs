@@ -4,6 +4,7 @@ import Import
 import Network.Wai (lazyRequestBody)
 import Data.Aeson (decode, Object)
 import Data.Aeson.Types (parseMaybe)
+import Data.Time.Clock.POSIX
 
 import System.Process
 
@@ -14,16 +15,15 @@ postRunR = do req <- reqWaiRequest <$> getRequest
               case bdson of               
               	         Just jas -> let thecode = text jas 
               	                         codeOutput = writeAndRunGHC thecode
-              	                     in liftIO (liftM dumdum $ codeOutput)
-              	         _ -> return dddd
+              	                     in liftIO (liftM makeMessage $ codeOutput)
+              	         _ -> return runError
               
 --              return $ case result of 
 --              	         Just jas -> (dumdum $ (text jas)) 
 --              	         _ -> dddd
 
-
-dddd = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text) ]         
-dumdum contt = object [ "stdout" .= contt, "stderr" .= (""::Text), "error" .= ("run error"::Text) ]         
+runError = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text) ]         
+makeMessage (stdo,stde,excode) = object [ "stdout" .= stdo, "stderr" .= stde, "error" .= excode ]         
 
 -- unnecessary data structure to help parse the json from the request for postrunr              
 data FileText = FileText { text :: Text }
@@ -40,11 +40,17 @@ readShell' cmd input = readProcess "bash" ["-c", cmd] input
 -- the code runner for now
 
 
-writeAndRunGHC :: Text -> IO Text
-writeAndRunGHC thecode =  do writeFile ("/Users/umutisik/Devel/YesodDeneme/_tempbuildghc/temp.hs") thecode
-                             x <- (readShell "runghc /Users/umutisik/Devel/YesodDeneme/_tempbuildghc/temp.hs" "")
-                             return x
+writeAndRunGHC :: Text -> IO (Text, Text, Text)
+writeAndRunGHC thecode =  do tim <- liftM show $ round `fmap` getPOSIXTime
+                             let fnm = localBuildingPath ++ tim ++ ".hs"
+                             writeFile fnm thecode
+                             --x <- readShell ("runghc " ++ (pack fnm)) ""
+                             let cmd = ("runghc " ++ (pack fnm))
+                             (ecd, stdout, stderr) <- readCreateProcessWithExitCode (shell cmd) "" 
+                             return (pack stdout, pack stderr, pack $ show ecd)
 
+
+localBuildingPath = "/Users/umutisik/Devel/YesodDeneme/_tempbuildghc/"
 
 --	do x <- ((readShell ("ls -al"::Text) (""::Text)))
 --              	          return x

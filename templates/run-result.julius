@@ -3,7 +3,7 @@ RunResult = (function() {
     function show(result) {
         for (var key in result) {
             var value = result[key];
-            if (value) {
+            if (value && value!="ExitSuccess") {
                 showPanel(key, value);
             }
         }

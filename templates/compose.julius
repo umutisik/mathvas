@@ -2,8 +2,8 @@
 
     $(document).on("click", ".run", function(e) {
     
-        //RunResult.clear();
-        //RunResult.showInfo("Running...");
+        RunResult.clear();
+        RunResult.showInfo("Running...");
 
         //var version = Meta.getLanguageVersion();
         var version = 12345;
