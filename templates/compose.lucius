@@ -1,0 +1,12 @@
+#snippet-title {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.actions {
+    margin-top: 16px;
+}
+
+.actions .btn {
+    margin-right: 16px;
+}

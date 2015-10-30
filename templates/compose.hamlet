@@ -1,0 +1,6 @@
+<h2 id="snippet-title">#{snippetTitle snippet}
+^{editorWidget snippet}
+<div class="actions">
+<button class="btn btn-primary run"> Run
+^{runResultWidget}
+              

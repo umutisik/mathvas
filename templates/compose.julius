@@ -1,0 +1,25 @@
+(function() {
+
+    $(document).on("click", ".run", function(e) {
+    
+        //RunResult.clear();
+        //RunResult.showInfo("Running...");
+
+        //var version = Meta.getLanguageVersion();
+        var version = 12345;
+        var url = "@{RunR}" + "?" + $.param({version: version});
+        var payload = {
+            file: editor.getValue(),
+            //command: Meta.getRunCommand(),
+        };
+
+        XHR.jsonPost(url, payload).done(function(data) {
+            RunResult.show(data);
+        }).fail(function(xhr) {
+            Alert.danger(xhr.responseJSON.message);
+        }).always(function() {
+            RunResult.hideInfo();
+        });
+    });
+
+})();
