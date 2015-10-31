@@ -23,7 +23,7 @@ getHomeR = do
         aDomId <- newIdent
         addScript $ StaticR lib_ace_ace_js 
         setTitle "Testo Pageo!"
-        let snippet = defaultSnippet
+        snippet <- (liftM (Snippet "" "Untitled" "")) (readFile "snippet_code_templates/artTemplate.hs")
         $(widgetFile "compose")
         $(widgetFile "homepage")
         

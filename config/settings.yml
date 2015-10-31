@@ -25,5 +25,5 @@ database:
   database: "_env:PGDATABASE:yesodeneme"
   poolsize: "_env:PGPOOLSIZE:10"
 
-copyright: Insert copyright statement here
+copyright: "2015, Umut Isik. Hello!"
 #analytics: UA-YOURCODE

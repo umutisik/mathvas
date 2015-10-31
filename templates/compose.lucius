@@ -11,6 +11,6 @@
     margin-right: 16px;
 }
 
-. userNameTextBox {
-	margin-right: 10px;
+.compose {
+	margin-bottom: 50px;
 }

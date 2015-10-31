@@ -1,3 +1,4 @@
+<!--
 <br><br><br><br>
 <h1>Welcome to the testo pageo!
 
@@ -38,3 +39,4 @@
   <li> And last but not least, Testing. In <em>test/Spec.hs</em> you will find a #
     test suite that performs tests on this page. #
     You can run your tests by doing: <pre>yesod test</pre>
+-->

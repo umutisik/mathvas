@@ -12,11 +12,15 @@ data Snippet = Snippet {
     snippetContent :: Text
 } deriving (Show)
 
+
+
 defaultSnippet :: Snippet
-defaultSnippet = Snippet{
+defaultSnippet = helloWorldSnippet
+
+helloWorldSnippet :: Snippet
+helloWorldSnippet = Snippet{
                         snippetId="",
                         snippetTitle="Untitled",
                         snippetOwner="",
                         snippetContent= "main = putStrLn \"Hello World!\""
                     }
-
