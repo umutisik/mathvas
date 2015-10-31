@@ -2,13 +2,23 @@ RunResult = (function() {
 
     function show(result) {
         for (var key in result) {
-            var value = result[key];
-            if (value && value!="ExitSuccess") {
-                showPanel(key, value);
+            if (key == "localfilename") {
+                var imgfilnam = result[key];
+                var selector = ".run-result .imageresult ";
+                $(selector).removeClass("hide");
+                $(selector + " .resultim").attr('src', "@{HomeR}" + "/image/" + imgfilnam + "jpeg");
+            }
+            else { 
+                var value = result[key];
+                if (value && value!="ExitSuccess") {
+                    showPanel(key, value);
+                }            
             }
         }
     }
 
+    //alert("Hello! I am an alert box!!" + selector);
+                
     function showInfo() {
         showPanel("info", "Running...");
     }
@@ -18,7 +28,7 @@ RunResult = (function() {
     }
 
     function clear() {
-        ["info", "stdout", "stderr", "error"].forEach(function(name) {
+        ["info", "stdout", "stderr", "error", "imageresult"].forEach(function(name) {
             hidePanel(name);
         });
     }

@@ -8,3 +8,14 @@
     background-color: transparent;
     border: none;
 }
+
+.image-panel-body {
+	text-align: center;
+}
+
+.resultim {
+	margin-bottom: 20px;
+	margin-top: 15px;
+}
+
+

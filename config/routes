@@ -6,3 +6,4 @@
 
 / HomeR GET POST
 /run/ RunR POST
+/image/#Text ImageR GET

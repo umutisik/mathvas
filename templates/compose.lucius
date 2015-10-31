@@ -10,3 +10,7 @@
 .actions .btn {
     margin-right: 16px;
 }
+
+. userNameTextBox {
+	margin-right: 10px;
+}

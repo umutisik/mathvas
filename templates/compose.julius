@@ -9,9 +9,11 @@
         var version = 12345;
         var url = "@{RunR}" + "?" + $.param({version: version});
         var payload = {
+            //user: document.getElementById("userNameTextBox").value.replaceAll("[^A-Za-z0-9]", ""),
             file: editor.getValue(),
             //command: Meta.getRunCommand(),
         };
+
 
         XHR.jsonPost(url, payload).done(function(data) {
             RunResult.show(data);
@@ -20,6 +22,5 @@
         }).always(function() {
             RunResult.hideInfo();
         });
-    });
-
+    });    
 })();
