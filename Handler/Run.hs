@@ -31,14 +31,14 @@ instance FromJSON FileText where
 writeAndRunGHC :: Text -> Text -> IO (Text, Text, Text, Text)
 writeAndRunGHC userid thecode =  do tim <- liftM show $ round `fmap` getPOSIXTime
                                     let fileName = userid ++ ("_"::Text) ++ (pack tim)
-                                    let fnm = localBuildingPath ++ fileName ++ ".hs"
+                                    let fnm = localBuildingPath ++ "hsfiles/" ++ fileName ++ ".hs"
                                     writeFile (unpack fnm) thecode
-                                    let cmd = ("sh " ++ localBuildingPath ++ "runandconvert.sh " ++ (localBuildingPath ++ fileName) ++ " " ++ fileName)
+                                    let cmd = ("sh " ++ localBuildingPath ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath)
                                     (ecd, stdout, stderr) <- readCreateProcessWithExitCode (shell (unpack cmd)) "" 
                                     return (pack stdout, pack stderr, pack $ show ecd, fileName)
 
 
 -- these need to be fixed and replaced
-localBuildingPath = "/Users/umutisik/Devel/YesodDeneme/_tempbuildghc/"
+localBuildingPath = "dockerSandboxes/"
 tempDefaultUserId = "user1"::Text
 

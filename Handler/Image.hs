@@ -14,5 +14,5 @@ import Handler.Run (localBuildingPath)
 --import System.Process
 
 getImageR :: Text -> Handler TypedContent
-getImageR name = let file = (readFile (unpack (localBuildingPath ++ name)))::(IO ByteString)
+getImageR name = let file = (readFile (unpack (localBuildingPath ++ "outputimages/" ++ name)))::(IO ByteString)
                  in liftIO (liftM (TypedContent "image/jpeg" . toContent) $ file)

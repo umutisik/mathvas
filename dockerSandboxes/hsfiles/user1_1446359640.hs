@@ -44,7 +44,7 @@ main :: IO ()
 main = do args <- getArgs
           case args of
             [filename] -> run' "gradient01" defaultWidth defaultWidth filename
-          _          -> usage
+            _          -> usage
           putStr "Done!\n"
 
 -- run with selected algorithm
