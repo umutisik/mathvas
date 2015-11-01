@@ -9,7 +9,7 @@ CNAME=$FILENAME
 
 eval "$(docker-machine env default)"
 
-docker run -d -it --name $CNAME umutcoderunner/haskell bash
+docker run -d -it --name $CNAME umutcoderunner/haskell bash > /dev/null
 docker cp $FILEFOLDER/hsfiles/$FILENAME.hs $CNAME:/home/umutcoderunner/
 docker exec $CNAME runghc /home/umutcoderunner/$FILENAME.hs $FILENAME
 docker exec $CNAME mogrify -format jpeg /home/umutcoderunner/$FILENAME.bmp
