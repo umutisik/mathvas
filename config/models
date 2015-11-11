@@ -1,8 +1,21 @@
 User
-    ident Text
-    password Text Maybe
-    UniqueUser ident
+    email Text
+    password Text
+    created UTCTime
+    modified UTCTime
+    UniqueUser email
     deriving Typeable
+
+Profile
+    userId UserId
+    username Text
+    name Text
+    created UTCTime
+    modified UTCTime
+    UniqueProfile userId
+    UniqueUsername username
+    deriving Typeable
+
 Email
     email Text
     user UserId Maybe

@@ -1,0 +1,47 @@
+$newline never
+<div class="navbar-wrapper">
+  <!-- <div class="container-fluid"> -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+            <span class="sr-only">Toggle navigation
+            <span class="icon-bar">
+            <span class="icon-bar">
+            <span class="icon-bar">
+          <a class="navbar-brand" href="@{HomeR}">Studio Math
+
+        $# Collect the nav links, forms, and other content for toggling
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <ul class="nav navbar-nav">
+            <li :currentPage == ComposeLanguagesPage:.active>
+              <a href="@{HomeR}"> New
+            $maybe profile <- mProfile
+              <li :currentPage == MySnippetsPage:.active>
+                <!--<a href="@{UserSnippetsR $ profileUsername profile}">My Code-->
+                <a href="@{HomeR}">My Code
+            <li :currentPage == AboutPage:.active>
+              <a href="@{AboutR}"> About
+                       
+
+          <ul class="nav navbar-nav navbar-right">
+            $maybe profile <- mProfile
+              <li :currentPage == AccountPage:.active class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{profileUsername profile}
+                  <b class="caret">
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="@{AccountProfileR}">Profile
+                  <li class="divider">
+                  <li>
+                    <a href="@{AuthR LogoutR}">Logout
+            $nothing
+              <li :currentPage == AccountPage:.active class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
+                  <b class="caret">
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="@{AuthR registerR}">Register
+                  <li>
+                    <a href="@{AuthR loginR}">Login
+

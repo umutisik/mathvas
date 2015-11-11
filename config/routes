@@ -7,3 +7,6 @@
 / HomeR GET POST
 /run/ RunR POST
 /image/#Text ImageR GET
+/account/profile AccountProfileR GET PUT
+/alert/danger AlertDangerR POST
+/about AboutR GET

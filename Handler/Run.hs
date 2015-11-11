@@ -44,6 +44,7 @@ writeAndRunGHC userid thecode =  do tim <- liftM show $ round `fmap` getPOSIXTim
 
 
 -- these need to be fixed and replaced
+-- by environment variables
 localBuildingPath = "dockerSandboxes/"
 tempDefaultUserId = "user1"::Text
 

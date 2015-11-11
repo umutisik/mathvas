@@ -12,5 +12,7 @@
 }
 
 .compose {
+	width: 85%;
+	margin: auto;
 	margin-bottom: 50px;
 }

@@ -22,10 +22,11 @@ getHomeR = do
     defaultLayout $ do
         aDomId <- newIdent
         addScript $ StaticR lib_ace_ace_js 
-        setTitle "Testo Pageo!"
+        setTitle "Studio Math!"
         snippet <- (liftM (Snippet "" "Untitled" "")) (readFile "snippet_code_templates/artTemplate.hs")
-        $(widgetFile "compose")
         $(widgetFile "homepage")
+        $(widgetFile "compose")
+        
         
 
 

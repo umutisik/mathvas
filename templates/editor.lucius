@@ -3,3 +3,7 @@
     	border-right: 1px solid #ddd;
     	border-left: 1px solid #ddd;
     }
+
+    .editortain {
+    	width: 80%;
+    }

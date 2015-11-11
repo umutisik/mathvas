@@ -1,4 +1,4 @@
-<br>
-<div id="editor">#{snippetContent snippet}
+<!-- <div class="container" id="editortain"> -->
+  <div id="editor">#{snippetContent snippet}
 
     
