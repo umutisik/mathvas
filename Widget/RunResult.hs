@@ -3,7 +3,8 @@ module Widget.RunResult (
 ) where
 
 import Import
+import Model.Activity
 
 --runResultWidget :: Maybe (Entity RunResult) -> Widget
-runResultWidget :: Widget
-runResultWidget = $(widgetFile "run-result")
+runResultWidget :: Activity -> Widget
+runResultWidget activity = $(widgetFile "run-result")

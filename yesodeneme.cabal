@@ -19,8 +19,10 @@ library
                      Import.NoFoundation
                      Model
                      Model.Snippet
+                     Model.Activity
                      Widget.Editor
                      Widget.RunResult
+                     Widget.Activities
                      Settings
                      Settings.StaticFiles
                      Settings.Environment
@@ -31,6 +33,8 @@ library
                      Handler.Account
                      Handler.Alert
                      Handler.About
+                     Handler.NewActivity
+                     Handler.Compose
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug

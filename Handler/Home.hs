@@ -2,8 +2,8 @@ module Handler.Home where
 
 import Import
 import Model.Snippet
-import Widget.Editor
-import Widget.RunResult
+import Model.Activity
+import Widget.Activities
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3,
                               withSmallInput)
 
@@ -21,12 +21,10 @@ getHomeR = do
         handlerName = "getHomeR" :: Text
     defaultLayout $ do
         aDomId <- newIdent
-        addScript $ StaticR lib_ace_ace_js 
         setTitle "Studio Math!"
-        snippet <- (liftM (Snippet "" "Untitled" "")) (readFile "snippet_code_templates/artTemplate.hs")
         $(widgetFile "homepage")
-        $(widgetFile "compose")
-        
+        activitiesWidget $ Just "Choose what to do"
+
         
 
 

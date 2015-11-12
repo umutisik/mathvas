@@ -10,3 +10,5 @@
 /account/profile AccountProfileR GET PUT
 /alert/danger AlertDangerR POST
 /about AboutR GET
+/new NewActivityR GET
+/new/#Text ComposeR GET POST

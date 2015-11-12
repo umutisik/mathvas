@@ -11,9 +11,10 @@
     <div class="panel-heading">Error
     <div class="panel-body">
       <pre class="body">
-  <div class="panel panel-default imageresult hide">
-    <div class="image-panel-body">
-      <img class="resultim" id="resultim" src=@{StaticR $ img_empty_image_jpg} alt="Result">
+  $if (hasImageResult activity)
+    <div class="panel panel-default imageresult hide">
+      <div class="image-panel-body">
+        <img class="resultim" id="resultim" src=@{StaticR $ img_empty_image_jpg} alt="Result">
       <!-- <div class="panel-footer">Untitled</div> -->
   <div class="panel panel-warning stderr hide">
     <div class="panel-heading">Stderr

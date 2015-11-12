@@ -11,7 +11,6 @@
         var payload = {
             //user: document.getElementById("userNameTextBox").value.replaceAll("[^A-Za-z0-9]", ""),
             file: editor.getValue(),
-            //command: Meta.getRunCommand(),
         };
 
 
@@ -23,4 +22,30 @@
             RunResult.hideInfo();
         });
     });    
+
+
+
+    $(document).on("click", ".save", function(e) {
+        var payload = {
+            //activity: diyezisaret{toJSON $ show lang},
+            //title: getTitle(),
+            //public: options.public,
+            file: Editor.getValue(),
+        };
+
+        var version = Meta.getLanguageVersion();
+        var url = "@{ComposeR activityName}" + "?" + $.param({
+            version: version,
+            command: Meta.getRunCommand(),
+        });
+
+        XHR.jsonPost(url, payload).done(function(data) {
+            Editor.clean();
+            Location.set(data.url);
+        }).fail(function(xhr) {
+            Alert.danger("Failed to save snippet");
+        });
+    });
+
+
 })();

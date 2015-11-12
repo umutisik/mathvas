@@ -15,7 +15,7 @@ $newline never
         <div class="collapse navbar-collapse" id="main-navbar">
           <ul class="nav navbar-nav">
             <li :currentPage == ComposeLanguagesPage:.active>
-              <a href="@{HomeR}"> New
+              <a href="@{NewActivityR}"> New
             $maybe profile <- mProfile
               <li :currentPage == MySnippetsPage:.active>
                 <!--<a href="@{UserSnippetsR $ profileUsername profile}">My Code-->

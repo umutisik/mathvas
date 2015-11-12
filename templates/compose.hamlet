@@ -3,4 +3,6 @@
   ^{editorWidget snippet}
   <div class="actions">
       <button class="btn btn-primary run"> Run
-  ^{runResultWidget}
+      <button class="btn btn-success save"> Save
+          
+  ^{runResultWidget activity}
