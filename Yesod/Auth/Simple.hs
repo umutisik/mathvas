@@ -17,7 +17,8 @@ module Yesod.Auth.Simple (
     confirmR,
     userExistsR,
     registerSuccessR,
-    confirmationEmailSentR
+    confirmationEmailSentR,
+    getError
 ) where
 
 import Prelude hiding (concat, length)

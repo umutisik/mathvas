@@ -4,6 +4,7 @@ import Import
 import Widget.Activities
 
 getNewActivityR :: Handler Html
-getNewActivityR = do  defaultLayout $ do setTitle "New snippet - Choose language"
+getNewActivityR = do  mUserId <- requireAuthId
+                      defaultLayout $ do setTitle "New snippet - Choose language"
                                          $(widgetFile "new")
 

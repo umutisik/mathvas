@@ -4,9 +4,10 @@ import Import
 import Model.Snippet
 import Model.Activity
 import Widget.Activities
+import Yesod.Auth.Simple
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3,
                               withSmallInput)
-
+    
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
 -- config/routes
@@ -19,11 +20,19 @@ getHomeR = do
     (formWidget, formEnctype) <- generateFormPost sampleForm
     let submission = Nothing :: Maybe (FileInfo, Text)
         handlerName = "getHomeR" :: Text
+    mUserId <- requireAuthId
+    --case mUserId of     
+    --  Nothing -> defaultLayout $ do 
+    --                    aDomId <- newIdent
+    --                    setTitle "Studio Math!"
+    --                    $(widgetFile "homepage")
+    --                    do let mErr = Nothing
+    --                       $(widgetFile "auth/login")
     defaultLayout $ do
-        aDomId <- newIdent
-        setTitle "Studio Math!"
-        $(widgetFile "homepage")
-        activitiesWidget $ Just "Choose what to do"
+                       aDomId <- newIdent
+                       setTitle "Studio Math!"
+                       $(widgetFile "homepage")
+                       activitiesWidget $ Just "Choose what to do"
 
         
 
