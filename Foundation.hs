@@ -194,7 +194,6 @@ unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
 -- https://github.com/yesodweb/yesod/wiki/i18n-messages-in-the-scaffolding
 
 
-
 instance YesodAuthSimple App where
     type AuthSimpleId App = UserId
 
