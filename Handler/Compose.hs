@@ -5,7 +5,7 @@ import Model.Activity
 import Model.Snippet
 import Widget.Editor
 import Widget.RunResult
-
+import Text.Julius (rawJS)
 
 getComposeR :: Text -> Handler Html
 getComposeR activityName = do 

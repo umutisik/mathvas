@@ -1,6 +1,7 @@
 module Handler.Run where
 
 import Import
+import Model.Activity
 import Network.Wai (lazyRequestBody)
 import Data.Aeson (decode, Object)
 import Data.Aeson.Types (parseMaybe)
@@ -10,22 +11,26 @@ import System.Timeout
 import System.Process
 
 postRunR :: Handler Value
-postRunR = do req <- reqWaiRequest <$> getRequest
+postRunR = do mUserId <- requireAuthId
+              req <- reqWaiRequest <$> getRequest
               body <- liftIO $ lazyRequestBody req
-              let bdson = (decode body)::(Maybe FileText)
+              let bdson = (decode body)::(Maybe RunRequest)
               case bdson of               
-              	         Just jas -> let thecode = text jas 
-              	                         codeOutput = writeAndRunGHC tempDefaultUserId thecode
-              	                     in liftIO (liftM makeMessage $ codeOutput)
+              	         Just (RunRequest ac jas) -> let activity = activityFromId ac
+                                                         thecode =(activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
+              	                                         codeOutput = writeAndRunGHC tempDefaultUserId thecode
+              	                                     in liftIO (liftM makeMessage $ codeOutput)
               	         _ -> return runError
 
 runError = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text), "localfilename" .= (""::Text) ]         
 makeMessage (stdo,stde,excode,fnm) = object [ "stdout" .= stdo, "stderr" .= stde, "error" .= excode, "localfilename" .= fnm ]         
 
--- unnecessary data structure to help parse the json from the request for postrunr              
-data FileText = FileText { text :: Text }
-instance FromJSON FileText where
- 	parseJSON (Object v) = FileText <$> v .: "file"
+-- data structure to help parse the json from the request for postrunr              
+data RunRequest = RunRequest {activity :: Text , text :: Text }
+instance FromJSON RunRequest where
+ 	parseJSON (Object v) = RunRequest <$> 
+                          v .: "activity" <*>
+                          v .: "file"
  	parseJSON _ = mzero
 
 

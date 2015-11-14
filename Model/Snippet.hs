@@ -37,7 +37,7 @@ defaultSnippet ac = Snippet { snippetId=""
                             , snippetCreated=""
                             , snippetContent= cont
                             }
-                      where cont = activityTemplateContent ac
+                      where cont = activityStudentCodeDefault ac
 
 
 --helloWorldSnippet :: Snippet

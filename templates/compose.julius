@@ -9,7 +9,7 @@
         var version = 12345;
         var url = "@{RunR}" + "?" + $.param({version: version});
         var payload = {
-            //user: document.getElementById("userNameTextBox").value.replaceAll("[^A-Za-z0-9]", ""),
+            activity: "#{rawJS activityName}",
             file: editor.getValue(),
         };
 
