@@ -11,6 +11,8 @@ getComposeR :: Text -> Handler Html
 getComposeR activityName = do 
 	let handlerName = "getHomeR" :: Text
 	let activity = activityFromId activityName
+	    isExistingSnippet = False
+            snippetId = "" :: Text
 	defaultLayout $ do
         aDomId <- newIdent
         addScript $ StaticR lib_ace_ace_js 
@@ -19,8 +21,8 @@ getComposeR activityName = do
         $(widgetFile "homepage")
         $(widgetFile "compose")
 
-postComposeR :: Text -> Handler Html
-postComposeR activity = error "Not yet implemented: postComposeR"
+--postComposeR :: Text -> Handler Html
+--postComposeR activity = error "Not yet implemented: postComposeR"
 
 
 -- snippet <- (liftM newSnippetWithContent) (readFile "snippet_code_templates/artTemplate.hs")

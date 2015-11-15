@@ -2,6 +2,7 @@ module Model.Snippet (
     Snippet(..),
     defaultSnippet,
     snippetContentHash,
+    contentHash
 ) where
 
 

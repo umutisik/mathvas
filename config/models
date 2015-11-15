@@ -23,15 +23,13 @@ Email
     UniqueEmail email
 
 StoredSnippet
-    snippetId Text
     snippetActivity Text
     snippetTitle Text
     snippetPublic Bool
-    snippetOwner Text
+    snippetOwner UserId
     snippetHash Text
     snippetModified UTCTime
     snippetCreated UTCTime
     snippetContent Text
-    UniqueSnippetId snippetId
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

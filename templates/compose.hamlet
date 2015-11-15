@@ -1,5 +1,7 @@
 <div class="compose">
-  <h2 id="snippet-title">#{snippetTitle snippet}
+  <div class="snippet-header">
+        <div class="snippet-header-title">
+          <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
   ^{editorWidget snippet}
   <div class="actions">
       <button class="btn btn-primary run"> Run

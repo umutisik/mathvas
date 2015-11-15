@@ -35,6 +35,10 @@ library
                      Handler.About
                      Handler.NewActivity
                      Handler.Compose
+                     Handler.Snippet
+                     Handler.Save
+                     Handler.CreateSnippet
+                     Handler.Code
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug

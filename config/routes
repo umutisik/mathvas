@@ -11,4 +11,8 @@
 /alert/danger AlertDangerR POST
 /about AboutR GET
 /new NewActivityR GET
-/new/#Text ComposeR GET POST
+/new/#Text ComposeR GET
+/code/#StoredSnippetId SnippetR GET
+/code CodeR GET
+/save/#StoredSnippetId SaveR POST
+/save CreateSnippetR POST

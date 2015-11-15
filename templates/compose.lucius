@@ -1,6 +1,11 @@
-#snippet-title {
+.snippet-header {
     margin-bottom: 20px;
     display: inline-block;
+}
+
+#snippet-title[contenteditable] {
+    border-bottom: 1px dashed #ccc;
+    padding: 5px;
 }
 
 .actions {
@@ -16,3 +21,4 @@
 	margin: auto;
 	margin-bottom: 50px;
 }
+

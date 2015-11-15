@@ -1,12 +1,20 @@
 (function() {
 
+    // Prevent newline in contenteditable fields
+    $(document).on("keydown", "[contenteditable]", function(e) {
+        if (e.which == 13) {
+            $(e.target).blur();
+            window.getSelection().removeAllRanges();
+        }
+    });
+
     $(document).on("click", ".run", function(e) {
     
         RunResult.clear();
         RunResult.showInfo("Running...");
 
         //var version = Meta.getLanguageVersion();
-        var version = 12345;
+        var version = 1;
         var url = "@{RunR}" + "?" + $.param({version: version});
         var payload = {
             activity: "#{rawJS activityName}",
@@ -27,25 +35,41 @@
 
     $(document).on("click", ".save", function(e) {
         var payload = {
-            //activity: diyezisaret{toJSON $ show lang},
-            //title: getTitle(),
-            //public: options.public,
-            file: Editor.getValue(),
+            activity: "#{rawJS activityName}",
+            title: getTitle(),
+            public: false,
+            //owner?
+            file: editor.getValue(),
         };
 
-        var version = Meta.getLanguageVersion();
-        var url = "@{ComposeR activityName}" + "?" + $.param({
-            version: version,
-            command: Meta.getRunCommand(),
-        });
+        var version = 1
+        //choose save or create snippet requests based on whether it's an existing snippet or new
+        if(#{rawJS isExistingSnippet}) 
+            var url = "@{HomeR}" + "save/" + "#{rawJS snippetId}" + "?" + $.param({ version: version });
+        else
+            var url = "@{CreateSnippetR}" + "?" + $.param({ version: version });
+        
 
         XHR.jsonPost(url, payload).done(function(data) {
-            Editor.clean();
-            Location.set(data.url);
+            //editor.clean();
+            //location.set(data.url);
+            for (var key in data) {
+                if (key == "snippetId") {
+                    var sid = data[key];
+                    var sr = "@{CodeR}"
+                    location.replace(sr + "/" + sid);
+                }
+            }
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
         });
     });
+
+    function getTitle() {
+        return $("#snippet-title").text();
+    }
+
+    // require confirmation before unloading unsaved? 
 
 
 })();
