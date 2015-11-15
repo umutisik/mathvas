@@ -19,11 +19,13 @@ getSnippetR sId = do
             	Just strsnippet -> let snippet = fromStoredSnippet strsnippet
             	                       activity = snippetActivity snippet
                                        activityName = activityTitle activity
-    	                           in defaultLayout $ do
-                                   aDomId <- newIdent
-                                   addScript $ StaticR lib_ace_ace_js 
-                                   setTitle "Studio Math!"
-                                   $(widgetFile "homepage")
-                                   $(widgetFile "compose")
+    	                           in if (storedSnippetSnippetOwner strsnippet == userId) then
+    	                                      defaultLayout $ do
+                                              aDomId <- newIdent
+                                              addScript $ StaticR lib_ace_ace_js 
+                                              setTitle "Studio Math!"
+                                              $(widgetFile "homepage")
+                                              $(widgetFile "compose")
+                                      else error "There was a problem with your access permissions to this code." 
 
 
