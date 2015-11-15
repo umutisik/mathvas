@@ -55,9 +55,14 @@
             //location.set(data.url);
             for (var key in data) {
                 if (key == "snippetId") {
-                    var sid = data[key];
-                    var sr = "@{CodeR}"
-                    location.replace(sr + "/" + sid);
+                    if(#{rawJS isExistingSnippet}) {
+                        Alert.success("Saved");
+                    }
+                    else {
+                        var sid = data[key];
+                        var sr = "@{CodeR}"
+                        location.replace(sr + "/" + sid);
+                    }
                 }
             }
         }).fail(function(xhr) {

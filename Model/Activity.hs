@@ -10,7 +10,7 @@ data Activity = Activity { activityId :: Text
                          , activityStudentCodeDefault :: Text
                          , activityHiddenCodeBelow :: Text
                          , hasImageResult :: Bool
-                         }
+                         } deriving (Show)
 
 openHaskell :: Activity
 openHaskell = Activity { activityId = "openHaskell"

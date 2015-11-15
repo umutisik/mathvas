@@ -9,7 +9,7 @@ import Text.Julius (rawJS)
 
 getComposeR :: Text -> Handler Html
 getComposeR activityName = do 
-	let handlerName = "getHomeR" :: Text
+	let handlerName = "getComposeR" :: Text
 	let activity = activityFromId activityName
 	    isExistingSnippet = False
             snippetId = "" :: Text

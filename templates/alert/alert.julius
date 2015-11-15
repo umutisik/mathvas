@@ -27,6 +27,10 @@ window.Alert = (function() {
         render("@{AlertDangerR}", msg);
     }
 
+    function success(msg) {
+        render("@{AlertSuccessR}", msg);
+    }
+
     function render(url, msg) {
         XHR.jsonPost(url, {message: msg}).done(function(res) {
             show(res.message);
@@ -42,6 +46,7 @@ window.Alert = (function() {
     fadeOutAll();
 
     return {
-        danger: danger
+        danger: danger,
+        success: success
     };
 })();
