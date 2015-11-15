@@ -9,6 +9,7 @@ import Text.Julius (rawJS)
 
 getComposeR :: Text -> Handler Html
 getComposeR activityName = do 
+        userId <- requireAuthId
 	let handlerName = "getComposeR" :: Text
 	let activity = activityFromId activityName
 	    isExistingSnippet = False

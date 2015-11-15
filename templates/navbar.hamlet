@@ -19,7 +19,7 @@ $newline never
             $maybe profile <- mProfile
               <li :currentPage == MySnippetsPage:.active>
                 <!--<a href="@{UserSnippetsR $ profileUsername profile}">My Code-->
-                <a href="@{HomeR}">My Code
+                <a href="@{SnippetsR}">My Code
             <li :currentPage == AboutPage:.active>
               <a href="@{AboutR}"> About
                        

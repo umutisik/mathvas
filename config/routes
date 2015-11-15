@@ -17,3 +17,4 @@
 /code CodeR GET
 /save/#StoredSnippetId SaveR POST
 /save CreateSnippetR POST
+/mycodes SnippetsR GET

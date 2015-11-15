@@ -44,7 +44,7 @@ savemSnippetInDb mSid ac tit userId isPublic theCode = do
 	case mSid of 
 	  Nothing  -> runDB $ do mid <- insertUnique $ StoredSnippet ac tit isPublic userId (contentHash theCode) now now theCode
 	                         return mid
-	  Just sid -> runDB $ do update sid [StoredSnippetSnippetContent =. theCode, StoredSnippetSnippetModified =. now]
+	  Just sid -> runDB $ do update sid [StoredSnippetSnippetContent =. theCode, StoredSnippetSnippetModified =. now, StoredSnippetSnippetTitle =. tit]
 	                         return $ Just sid
 
     
