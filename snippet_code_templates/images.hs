@@ -334,7 +334,8 @@ type R = Double
 -- these ' functions are for when the right side is +1
 -- these should not be defined separately! 
 convertRealToPixels' :: (R -> R -> (R,R,R)) -> Int -> Int -> DIM2  -> UIColor8
-convertRealToPixels' f sizeX sizeY (Z :. x :. y )  = colorScale ((if antiAlias then antiIlyas f (1/(fromIntegral sizeX)) (1/(fromIntegral sizeY)) else f) convX convY) where
+convertRealToPixels' f sizeX sizeY (Z :. x :. y )  = colorScale ((if antiAlias then antiIlyas g (1/(fromIntegral sizeX)) (1/(fromIntegral sizeY)) else g) convX convY) where
+                                                        g xx yy = f yy xx
 							convY = ((2 * fromIntegral y) - (fromIntegral sizeY)) / (fromIntegral sizeY)  
 							convX = ((2 * fromIntegral x) - (fromIntegral sizeX)) / (fromIntegral sizeX)  
 							rround :: R -> Int

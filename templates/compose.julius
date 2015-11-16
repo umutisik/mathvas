@@ -18,7 +18,7 @@
         var url = "@{RunR}" + "?" + $.param({version: version});
         var payload = {
             activity: "#{rawJS activityName}",
-            file: editor.getValue(),
+            file: Editor.getValue(),
         };
 
 
@@ -44,7 +44,7 @@
             title: getTitle(),
             public: false,
             //owner?
-            file: editor.getValue(),
+            file: Editor.getValue(),
         };
 
         var version = 1
@@ -56,7 +56,7 @@
         
 
         XHR.jsonPost(url, payload).done(function(data) {
-            //editor.clean();
+            Editor.clean();
             //location.set(data.url);
             for (var key in data) {
                 if (key == "snippetId") {
@@ -75,8 +75,9 @@
         });
     }
     $(document).on("click", ".fork", function(e) {
+        Editor.clean();
         save();
-        var file = editor.getValue();
+        var file = Editor.getValue();
         Fork.setFile(file);
         location.replace("@{ComposeR activityName}");
     });
@@ -85,7 +86,11 @@
         return $("#snippet-title").text();
     }
 
-    // require confirmation before unloading unsaved? 
-
+    // Require confirmation if user tries to unload page with unsaved changes
+    window.onbeforeunload = function() {
+        if (!Editor.isClean()) {
+            return "You have unsaved changes!";
+        }
+    };
 
 })();

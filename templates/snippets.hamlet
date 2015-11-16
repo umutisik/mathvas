@@ -19,6 +19,6 @@
                 <a href=@{SnippetR snippetid}>#{storedSnippetSnippetTitle snippet}
               <td>
                 $with activityName <- storedSnippetSnippetActivity snippet
-                  #{activityName}
+                  #{activityTitle $ activityFromId activityName}
               <td class="modified"> #{utcFormat $ storedSnippetSnippetModified snippet}
               

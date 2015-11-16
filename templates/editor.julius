@@ -1,14 +1,51 @@
+window.Editor = (function() {
 
-var lineCount = 30;
+    var editor = ace.edit("editor");
 
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/haskell");
+    function initEditor() {
+        var lineCount = 30;
+    
+        editor.setOptions({
+            minLines: lineCount,
+            maxLines: lineCount,
+        });
 
-editor.setOptions({
-        minLines: lineCount,
-        maxLines: lineCount,
-    });
+        
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/haskell");
+    }
+
+    function clean() {
+            editor.session.getUndoManager().reset();
+    }
+
+    function isClean() {
+            return editor.session.getUndoManager().isClean();
+    }
+
+    function resetEditor(id) {
+        editor.setValue("");
+    }
+
+    function getValue() {
+        return editor.getValue();
+    }
+
+    function setValue(v) {
+        editor.setValue(v);
+    }
+
+    return {
+        initEditor: initEditor,
+        resetEditor: resetEditor,
+        setValue: setValue,
+        getValue: getValue,
+        clean: clean,
+        isClean: isClean,
+    };
+})();
+
+
 
 
 
@@ -42,13 +79,17 @@ window.Fork = (function() {
     };
 })();
 
+
 (function() {
     
     if (Fork.hasFile()) {
         // Initialize editor with forked file
+        Editor.initEditor();
         var file = Fork.getFile();
-        editor.setValue(file);
-    } 
+        Editor.setValue(file);
+    } else {
+        Editor.initEditor();
+    }
 
 })();
 

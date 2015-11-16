@@ -8,6 +8,7 @@
       <button class="btn btn-primary run"> Run
       <button class="btn btn-success save"> Save
     <div class="col-md-4">  
-      <button class="btn btn-default fork"> Fork
+      $if isExistingSnippet
+        <button class="btn btn-default fork"> Fork
           
   ^{runResultWidget activity}
