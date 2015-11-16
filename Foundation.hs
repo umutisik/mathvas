@@ -308,10 +308,8 @@ navbarWidget = do
 
 
 data Page = HomePage |
-            ComposeLanguagesPage |
-            SnippetsPage |
-            MySnippetsPage |
-            UserSnippetsPage |
+            ChoosePage |
+            MyCodePage |
             AccountPage |
             AboutPage |
             None
@@ -327,6 +325,15 @@ getCurrentPage _ (Just AboutR) = AboutPage
 --    | profileUsername profile == username = MySnippetsPage
 --getCurrentPage _ (Just (UserSnippetsR _)) = UserSnippetsPage
 getCurrentPage _ (Just AccountProfileR) = AccountPage
+getCurrentPage _ (Just NewActivityR) = ChoosePage
+--getCurrentPage _ (Just (ComposeR _)) = ChoosePage
+--getCurrentPage _ (Just SnippetR) = 
+getCurrentPage _ (Just SnippetsR) = MyCodePage
+--getCurrentPage _ (Just ) = 
+
+
+
+
 getCurrentPage _ (Just r)
     | r == AuthR loginR = AccountPage
     | r == AuthR registerR = AccountPage
