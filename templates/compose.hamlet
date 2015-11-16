@@ -3,8 +3,11 @@
         <div class="snippet-header-title">
           <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
   ^{editorWidget snippet}
-  <div class="actions">
+  <div class="row actions">
+    <div class="col-md-8">
       <button class="btn btn-primary run"> Run
       <button class="btn btn-success save"> Save
+    <div class="col-md-4">  
+      <button class="btn btn-default fork"> Fork
           
   ^{runResultWidget activity}

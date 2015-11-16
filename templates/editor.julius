@@ -1,12 +1,54 @@
 
-    var lineCount = 30;
+var lineCount = 30;
 
-	var editor = ace.edit("editor");
-	editor.setTheme("ace/theme/monokai");
-	editor.getSession().setMode("ace/mode/haskell");
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.getSession().setMode("ace/mode/haskell");
 
-	editor.setOptions({
-            minLines: lineCount,
-            maxLines: lineCount,
-        });
+editor.setOptions({
+        minLines: lineCount,
+        maxLines: lineCount,
+    });
+
+
+
+
+window.Fork = (function() {
+    function hasFile() {
+        if (localStorage.forkedFile) {
+            return true;
+        }
+        return false;
+    }
+
+    function setFile(file) {
+        localStorage.forkedFile = JSON.stringify(file);
+    }
+
+    function getFile() {
+        if (!hasFile()) {
+            return null;
+        }
+
+        var file = JSON.parse(localStorage.forkedFile);
+        delete localStorage.forkedFile;
+        return file;
+    }
+
+    return {
+        hasFile: hasFile,
+        setFile: setFile,
+        getFile: getFile,
+    };
+})();
+
+(function() {
+    
+    if (Fork.hasFile()) {
+        // Initialize editor with forked file
+        var file = Fork.getFile();
+        editor.setValue(file);
+    } 
+
+})();
 

@@ -12,7 +12,7 @@
     margin-top: 16px;
 }
 
-.actions .btn {
+.save .run {
     margin-right: 16px;
 }
 
@@ -22,3 +22,7 @@
 	margin-bottom: 50px;
 }
 
+.fork {
+	float: right;
+	margin-right: 2px;
+}
