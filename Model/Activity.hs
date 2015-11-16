@@ -39,5 +39,6 @@ allActivities = [openHaskell, images]
 activityFromId :: Text -> Activity
 activityFromId "openHaskell" = openHaskell
 activityFromId "images" = images
+--activityFromId _ = openHaskell
 
 templateSplitterString = "--STUDENTCODEDELIMITER---\n"

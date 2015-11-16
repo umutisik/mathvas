@@ -17,8 +17,8 @@ getSnippetR sId = do
             case mSnippet of 
                 Nothing         -> error "There was a problem retrieving this snippet"
                 Just strsnippet -> let snippet = fromStoredSnippet strsnippet
-            	                       activity = snippetActivity snippet
-                                       activityName = activityTitle activity
+                                       activity = snippetActivity snippet
+                                       activityName = activityId activity
                                    in if (storedSnippetSnippetOwner strsnippet == userId) then
                                               defaultLayout $ do
                                               aDomId <- newIdent

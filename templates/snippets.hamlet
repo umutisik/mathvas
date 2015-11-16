@@ -2,16 +2,16 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h3>#{userName}'s Codes
+        <h3>#{userName}'s Codes
       $if null snippetList
         <p>No snippets found
       $else
         <table class="table">
           <thead>
             <tr>
-              <th>Language
               <th>Title
-              <th>Modified
+              <th>Activity
+              <th class="modified">Modified
           <tbody>
           $forall Entity snippetid snippet <- snippetList
             <tr>
@@ -20,5 +20,5 @@
               <td>
                 $with activityName <- storedSnippetSnippetActivity snippet
                   #{activityName}
-              <td> #{utcFormat $ storedSnippetSnippetModified snippet}
+              <td class="modified"> #{utcFormat $ storedSnippetSnippetModified snippet}
               
