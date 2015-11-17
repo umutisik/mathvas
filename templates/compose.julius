@@ -75,12 +75,31 @@
         });
     }
     $(document).on("click", ".fork", function(e) {
+        e.preventDefault();
         Editor.clean();
         save();
         var file = Editor.getValue();
         Fork.setFile(file);
         location.replace("@{ComposeR activityName}");
     });
+
+    $(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        if (confirm("Are you sure you want to delete this snippet?")) {
+            deleteSnippet();
+        }
+    });
+
+    function deleteSnippet() {
+        XHR.delete("@{SnippetR sId}").done(function(data) {
+            Editor.clean();
+            location.replace("@{SnippetsR}");
+        }).fail(function(xhr) {
+            Alert.danger("Failed to delete snippet");
+        });
+    }
+
+
 
     function getTitle() {
         return $("#snippet-title").text();

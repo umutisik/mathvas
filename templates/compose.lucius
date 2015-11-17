@@ -22,7 +22,12 @@
 	margin-bottom: 50px;
 }
 
-.fork {
+.delete {
 	float: right;
 	margin-right: 2px;
+}
+
+.fork {
+	float: right;
+	margin-right: 16px;
 }

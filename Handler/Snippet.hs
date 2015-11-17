@@ -6,7 +6,7 @@ import Model.Snippet
 import Widget.Editor
 import Widget.RunResult
 import Text.Julius (rawJS)
-import Database.Persist.Sql
+import Database.Persist.Sql (fromSqlKey)
 
 getSnippetR :: StoredSnippetId -> Handler Html
 getSnippetR sId = do	    
@@ -29,3 +29,8 @@ getSnippetR sId = do
                                       else error "There was a problem with your access permissions to this code." 
 
 
+deleteSnippetR :: StoredSnippetId -> Handler Value
+deleteSnippetR sId = do
+    mUserId <- requireAuthId
+    runDB $ do delete sId
+    return $ object []

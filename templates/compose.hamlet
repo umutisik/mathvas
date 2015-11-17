@@ -9,6 +9,8 @@
       <button class="btn btn-success save"> Save
     <div class="col-md-4">  
       $if isExistingSnippet
+        <button class="btn btn-danger delete">Delete
         <button class="btn btn-default fork"> Fork
+        
           
   ^{runResultWidget activity}

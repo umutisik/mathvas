@@ -13,7 +13,7 @@
 /about AboutR GET
 /new NewActivityR GET
 /new/#Text ComposeR GET
-/code/#StoredSnippetId SnippetR GET
+/code/#StoredSnippetId SnippetR GET DELETE
 /code CodeR GET
 /save/#StoredSnippetId SaveR POST
 /save CreateSnippetR POST
