@@ -5,7 +5,7 @@
 
 FILENAME="$1"
 FILEFOLDER="$2"
-ACTIVITY="$3"
+HASIMAGES="$3"
 CNAME=$FILENAME
 
 eval "$(docker-machine env default)"
@@ -15,7 +15,7 @@ docker cp $FILEFOLDER/hsfiles/$FILENAME.hs $CNAME:/home/umutcoderunner/
 docker exec $CNAME runghc /home/umutcoderunner/$FILENAME.hs $FILENAME
 
 #special for images
-if [ "$ACTIVITY" == "images" ] 
+if [ "$HASIMAGES" == "True" ]
 then
   docker exec $CNAME mogrify -format jpeg /home/umutcoderunner/$FILENAME.bmp
   docker cp $CNAME:/home/umutcoderunner/$FILENAME.jpeg $FILEFOLDER/outputimages/

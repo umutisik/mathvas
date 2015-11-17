@@ -24,8 +24,8 @@ import qualified Data.Vector.Unboxed.Mutable	as MV
 -- this is the function that will be drawn 
 theFunctionToDraw = f
 
-f :: R -> R -> (R,R,R)
-f x y = (x, x, x)
+f :: R -> R -> R
+f x y = x^2+y^2 
 
 
 --STUDENTCODEDELIMITER---
@@ -46,7 +46,7 @@ usage 	= putStr $ unlines
 main :: IO ()
 main = do args <- getArgs       
           case args of
-             [filename] -> writeBMPFromFunction theFunctionToDraw defaultWidth defaultWidth filename
+             [filename] -> writeBMPFromFunction (\x -> \y -> (tripleDiagonal $ theFunctionToDraw x y)) defaultWidth defaultWidth filename
           putStr "Done!\n"
 
 

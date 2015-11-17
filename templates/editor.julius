@@ -10,6 +10,8 @@ window.Editor = (function() {
             maxLines: lineCount,
         });
 
+        editor.setOption("firstLineNumber", #{rawJS $ show $ firstLineNumber $ snippetActivity snippet})
+
         
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/haskell");

@@ -3,7 +3,9 @@ module Widget.Editor (
 ) where
 
 import Import
-import Model.Snippet 
+import Model.Snippet
+import Model.Activity
+import Text.Julius (rawJS)
 
 editorWidget :: Snippet -> Widget
 editorWidget snippet = do
