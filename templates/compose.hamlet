@@ -2,7 +2,7 @@
   <div class="snippet-header">
         <div class="snippet-header-title">
           <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
-  ^{editorWidget snippet}
+  ^{editorWidget snippet numberOfLines}
   <div class="row actions">
     <div class="col-md-8">
       <button class="btn btn-primary run"> Run

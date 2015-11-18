@@ -7,8 +7,8 @@ import Model.Snippet
 import Model.Activity
 import Text.Julius (rawJS)
 
-editorWidget :: Snippet -> Widget
-editorWidget snippet = do
+editorWidget :: Snippet -> Int -> Widget
+editorWidget snippet numberOfLines = do
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "editor")
 

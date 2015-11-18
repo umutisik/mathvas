@@ -13,6 +13,7 @@ getSnippetR sId = do
             userId <- requireAuthId
             let isExistingSnippet = True
             let snippetId = show (fromSqlKey $ sId)
+            let numberOfLines = 30
             mSnippet <- runDB $ get sId
             case mSnippet of 
                 Nothing         -> error "There was a problem retrieving this snippet"

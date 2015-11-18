@@ -3,7 +3,7 @@ window.Editor = (function() {
     var editor = ace.edit("editor");
 
     function initEditor() {
-        var lineCount = 30;
+        var lineCount = #{rawJS $ show numberOfLines};
     
         editor.setOptions({
             minLines: lineCount,

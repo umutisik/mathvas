@@ -16,6 +16,7 @@ getComposeR activityName = do
     let isExistingSnippet = False
     let snippetId = ("" :: Text)
     let sId = toSqlKey 0
+    let numberOfLines = 30
     defaultLayout $ do
         aDomId <- newIdent
         addScript $ StaticR lib_ace_ace_js 
