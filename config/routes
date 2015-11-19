@@ -18,3 +18,4 @@
 /save/#StoredSnippetId SaveR POST
 /save CreateSnippetR POST
 /mycodes SnippetsR GET
+/lesson/#Text LessonR GET

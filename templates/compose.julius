@@ -1,6 +1,5 @@
 (function() {
 
-    
     // Prevent newline in contenteditable fields
     $(document).on("keydown", "[contenteditable]", function(e) {
         if (e.which == 13) {

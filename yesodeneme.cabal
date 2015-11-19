@@ -40,6 +40,7 @@ library
                      Handler.CreateSnippet
                      Handler.Code
                      Handler.Snippets
+                     Handler.Lesson
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug
@@ -47,6 +48,7 @@ library
                      Util.Hash
                      Util.Alert
                      Util.Handler
+                     
                      
 
     if flag(dev) || flag(library-only)
@@ -79,6 +81,7 @@ library
                  , yesod-auth                    >= 1.4.0      && < 1.5
                  , yesod-static                  >= 1.4.0.3    && < 1.6
                  , yesod-form                    >= 1.4.0      && < 1.5
+                 , yesod-markdown                >= 0.10.0     && < 0.11
                  , classy-prelude                >= 0.10.2
                  , classy-prelude-conduit        >= 0.10.2
                  , classy-prelude-yesod          >= 0.10.2
