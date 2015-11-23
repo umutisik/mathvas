@@ -25,6 +25,16 @@ openHaskell = Activity { activityId = "openHaskell"
                        , firstLineNumber = 1
                        }
 
+evaluate :: Activity
+evaluate = Activity { activityId = "evaluate"
+                       , activityTitle = "Evaluate"
+                       , activityHiddenCodeBelow = ""
+                       , activityHiddenCodeAbove = "main = putStrLn $ show valueToPrint\n"
+                       , activityStudentCodeDefault = "valueToPrint = f 1\n\nf x = x"::Text
+                       , hasImageResult = False
+                       , firstLineNumber = 1
+                       }
+
 images :: Activity
 images = let templateFileText = decodeUtf8 $(embedFile "snippet_code_templates/images.hs")
              [abv, stude, blw] = take 3 $ splitOn templateSplitterString templateFileText
@@ -51,13 +61,13 @@ grayscale = let templateFileText = decodeUtf8 $(embedFile "snippet_code_template
 
 
 
-
 allActivities :: [Activity]
-allActivities = [openHaskell, grayscale, images]
+allActivities = [evaluate, grayscale, images, openHaskell]
 activityFromId :: Text -> Activity
 activityFromId "openHaskell" = openHaskell
 activityFromId "images" = images
 activityFromId "grayscale" = grayscale
+activityFromId "evaluate" = evaluate
 --activityFromId _ = openHaskell
 
 templateSplitterString = "--STUDENTCODEDELIMITER---\n"
