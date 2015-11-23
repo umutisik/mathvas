@@ -46,7 +46,9 @@ usage 	= putStr $ unlines
 main :: IO ()
 main = do args <- getArgs       
           case args of
-             [filename] -> writeBMPFromFunction (\x -> \y -> (tripleDiagonal $ theFunctionToDraw x y)) defaultWidth defaultWidth filename
+             (filename:swidth:[]) -> let width = read swidth::Int 
+                                     in writeBMPFromFunction (\x -> \y -> (tripleDiagonal $ theFunctionToDraw x y)) width width filename
+             _                    -> putStr "Internal problem. Arguments of the running program might be wrong."
           putStr "Done!\n"
 
 

@@ -46,8 +46,9 @@ usage 	= putStr $ unlines
 main :: IO ()
 main = do args <- getArgs       
           case args of
-             [filename] -> writeBMPFromFunction theFunctionToDraw defaultWidth defaultWidth filename
-          putStr "Done!\n"
+             (filename:swidth:[]) -> let width = read swidth::Int 
+                                     in writeBMPFromFunction theFunctionToDraw width width filename
+             _                    -> putStr "Internal problem. Arguments of the running program might be wrong."
 
 
 -- run with selected algorithm

@@ -48,8 +48,9 @@ writeAndRunGHC :: Activity -> Text -> Text -> IO (Text, Text, Text, Text)
 writeAndRunGHC activity userid thecode =  do tim <- liftM show $ round `fmap` getPOSIXTime
                                              let fileName = userid ++ ("_"::Text) ++ (pack tim)
                                              let fnm = localBuildingPath ++ "hsfiles/" ++ fileName ++ ".hs"
+                                             let imageSize = 300
                                              writeFile (unpack fnm) thecode
-                                             let cmd = ("sh " ++ localBuildingPath ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath ++ " " ++ (pack $ show $ hasImageResult activity))
+                                             let cmd = ("sh " ++ localBuildingPath ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imageSize) 
                                              outfromrun <- timeout timeLimitOnRuns $ readCreateProcessWithExitCode (shell (unpack cmd)) ""
                                              case outfromrun of
                                                Nothing -> do let cmdtostop = ("sh " ++ localBuildingPath ++ "stopcontainer.sh " ++ fileName ++ " " ++ localBuildingPath)

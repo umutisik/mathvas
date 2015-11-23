@@ -6,13 +6,21 @@
 FILENAME="$1"
 FILEFOLDER="$2"
 HASIMAGES="$3"
+IMAGESIZE="$4"
 CNAME=$FILENAME
 
 eval "$(docker-machine env default)"
 
 docker run -d -it --name $CNAME umutcoderunner/haskell bash > /dev/null
 docker cp $FILEFOLDER/hsfiles/$FILENAME.hs $CNAME:/home/umutcoderunner/
-docker exec $CNAME runghc /home/umutcoderunner/$FILENAME.hs $FILENAME
+
+# separate images and not images
+if [ "$HASIMAGES" == "True" ]
+then 	
+  docker exec $CNAME runghc /home/umutcoderunner/$FILENAME.hs $FILENAME $IMAGESIZE
+else
+  docker exec $CNAME runghc /home/umutcoderunner/$FILENAME.hs $FILENAME
+fi
 
 #special for images
 if [ "$HASIMAGES" == "True" ]
