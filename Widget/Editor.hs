@@ -12,3 +12,5 @@ editorWidget snippet numberOfLines = do
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "editor")
 
+settingsWidget :: Widget
+settingsWidget = $(widgetFile "widget/settings")

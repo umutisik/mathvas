@@ -1,0 +1,18 @@
+.settings-table {
+    max-width: 600px;
+}
+
+#settings {
+    padding-left: 50px;
+    padding-top: 80px;
+    padding-bottom: 180px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+
+}
+
+.okbutton {
+  float: right;
+}

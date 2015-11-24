@@ -37,6 +37,16 @@ window.Editor = (function() {
         editor.setValue(v);
     }
 
+    function showSettings() {
+        $(".editor:not(.hide)").addClass("hide");
+        $("#settings").removeClass("hide");
+    }
+
+    function hideSettings() {
+        $(".editor").removeClass("hide");
+        $("#settings").addClass("hide");
+    }
+
     return {
         initEditor: initEditor,
         resetEditor: resetEditor,
@@ -44,6 +54,8 @@ window.Editor = (function() {
         getValue: getValue,
         clean: clean,
         isClean: isClean,
+        showSettings: showSettings,
+        hideSettings: hideSettings,
     };
 })();
 
@@ -84,6 +96,13 @@ window.Fork = (function() {
 
 (function() {
     
+    
+    // Handle settings button clicks
+    $(document).on("click", ".settingslink", function(e) {
+        Editor.showSettings();
+    });
+
+
     if (Fork.hasFile()) {
         // Initialize editor with forked file
         Editor.initEditor();

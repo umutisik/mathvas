@@ -1,0 +1,30 @@
+$newline never
+<table class="settings-table table">
+  <thead>
+    <tr>
+      <th>Editor Settings
+      <th>
+  <tbody>
+    <tr>
+      <td>Output Image Size (if any)
+      <td>
+        <select id="imagesize">
+            <option value="200">200x200
+            <option value="300" selected="selected">300x300
+            <option value="400">400x400
+            <option value="600">600x600
+            <option value="900">900x900
+    <tr>
+      <td>Maximum Running Time
+      <td>
+        <select id="maxrunningtime">
+          <option value="10" selected="selected">10 Sec
+          <option value="15">15 Sec
+          <option value="30">30 Sec
+          <option value="60">60 Sec
+    <tr>
+      <td>
+      <td>
+         <button type="button" class="btn btn-success okbutton">OK
+
+

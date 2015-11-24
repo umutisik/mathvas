@@ -7,6 +7,9 @@
     <div class="col-md-8">
       <button class="btn btn-primary run"> Run
       <button class="btn btn-success save"> Save
+      <div class="settingslink">
+        <a href="#" class="settlink">
+          Settings
     <div class="col-md-4">  
       $if isExistingSnippet
         <button class="btn btn-danger delete">Delete

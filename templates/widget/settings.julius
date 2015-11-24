@@ -1,0 +1,27 @@
+window.Settings = (function() {
+    
+    function getImageSize() {
+        return $("#imagesize").val();
+    }
+
+    function getMaxRunningTime() {
+        return $("#maxrunningtime").val();
+    }
+
+    return {
+        getMaxRunningTime: getMaxRunningTime,
+        getImageSize: getImageSize,
+    };
+
+})();
+
+(function() {
+        
+    // Handle settings button clicks
+    $(document).on("click", ".okbutton", function(e) {
+        Editor.hideSettings();
+    });
+
+
+
+})();

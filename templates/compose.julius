@@ -19,6 +19,8 @@
         var payload = {
             activity: "#{rawJS activityName}",
             file: Editor.getValue(),
+            imageSize: Settings.getImageSize(),
+            maxRunningTime: Settings.getMaxRunningTime(),
         };
 
 
