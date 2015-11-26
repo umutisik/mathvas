@@ -96,10 +96,19 @@ window.Fork = (function() {
 
 (function() {
     
+    var settingsShown= false;
     
     // Handle settings button clicks
     $(document).on("click", ".settingslink", function(e) {
-        Editor.showSettings();
+        if (settingsShown) {
+            Editor.hideSettings();
+            settingsShown = false;
+        }
+        else {
+            Editor.showSettings();
+            settingsShown = true;
+        }
+        
     });
 
 
