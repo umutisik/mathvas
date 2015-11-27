@@ -19,3 +19,4 @@
 /save CreateSnippetR POST
 /mycodes SnippetsR GET
 /lesson/#Text LessonR GET
+/problem/#Text ProblemR GET

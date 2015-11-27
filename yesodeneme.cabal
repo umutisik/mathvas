@@ -41,6 +41,7 @@ library
                      Handler.Code
                      Handler.Snippets
                      Handler.Lesson
+                     Handler.Problem
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug
@@ -126,7 +127,8 @@ library
                  , uuid                          >= 1.3        && < 2.0
                  , regex-compat
                  , yesod-persistent
-                 , iso8601-time                  
+                 , iso8601-time   
+                 , pandoc                        >= 1.9.0               
 
                  
 
