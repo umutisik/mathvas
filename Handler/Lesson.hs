@@ -20,7 +20,6 @@ getLessonR text = do
     defaultLayout $ do
         -- addScript $ StaticR lib_ace_ace_js 
         addStylesheet $ StaticR css_markdown_css
-        --addScript $ StaticR js_MathJax_js
         addScriptRemote mathJaxJsUrl
         setTitle "Studio Math!"
         $(widgetFile "homepage")
@@ -30,18 +29,15 @@ getLessonR text = do
             Right cont -> $(widgetFile "widget/lessoncontent")
         
 
-markdownToHtml' = fmap (writePandoc writerOptions)
+markdownToHtml' = fmap (writePandoc markdownWriterOptions)
                          . parseMarkdown yesodDefaultReaderOptions
 
-writerOptions = def
+markdownWriterOptions = def
   { writerHtml5     = True
   , writerWrapText  = False
   , writerHighlight = True
   , writerHTMLMathMethod = MathJax mathJaxJsUrl
   }
-
-
-
 
 mathJaxJsUrl = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 
