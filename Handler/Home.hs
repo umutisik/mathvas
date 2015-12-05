@@ -1,13 +1,18 @@
 module Handler.Home where
 
 import Import
+import Util.Util
 import Model.Snippet
 import Model.Activity
 import Widget.Activities
+import Settings.Environment
+import Widget.LessonList
 import Yesod.Auth.Simple
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3,
                               withSmallInput)
     
+import System.Directory
+
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
 -- config/routes
@@ -33,9 +38,9 @@ getHomeR = do
                        setTitle "Studio Math!"
                        $(widgetFile "homepage")
                        activitiesWidget $ Just "Choose what to do"
-
-        
-
+                       (lift (parseLessonList $ ((lessonsPath ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Lessons")) 
+                       --utl :: ([(Text,Text)] -> WidgetT App IO ()) -> IO [(Text,Text)] -> WidgetT App IO ()
+                       --utl f t = (lift t) >>= f  
 
 postHomeR :: Handler Html
 postHomeR = do

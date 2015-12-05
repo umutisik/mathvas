@@ -23,6 +23,7 @@ library
                      Widget.Editor
                      Widget.RunResult
                      Widget.Activities
+                     Widget.LessonList
                      Settings
                      Settings.StaticFiles
                      Settings.Environment
@@ -49,6 +50,9 @@ library
                      Util.Hash
                      Util.Alert
                      Util.Handler
+                     Util.Util
+
+
                      
                      
 
@@ -128,7 +132,8 @@ library
                  , regex-compat
                  , yesod-persistent
                  , iso8601-time   
-                 , pandoc                        >= 1.9.0               
+                 , pandoc                        >= 1.9.0 
+                 , parsec              
 
                  
 

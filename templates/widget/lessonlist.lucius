@@ -1,0 +1,20 @@
+.title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.lesson {
+    float: left;
+    
+    margin-left: 30px;
+    padding-bottom: 6px;
+}
+
+.lesson-text {
+    text-align: left;
+    font-size: 13pt;
+}
+
+.lessons {
+    margin-top: 30px;
+}

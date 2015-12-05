@@ -7,6 +7,7 @@ import Widget.Editor
 import Widget.RunResult
 import Text.Julius (rawJS)
 import Database.Persist.Sql (toSqlKey)
+import Settings.Environment
 
 import Yesod.Markdown
 import Text.Pandoc
@@ -14,7 +15,7 @@ import Text.Pandoc
 
 
 getLessonR :: Text -> Handler Html
-getLessonR text = do
+getLessonR lsntitle = do
     userId <- requireAuthId
     let handlerName = "getLessonR" :: Text
     defaultLayout $ do
@@ -23,7 +24,8 @@ getLessonR text = do
         addScriptRemote mathJaxJsUrl
         setTitle "Studio Math!"
         $(widgetFile "homepage")
-        mm2 <- liftIO $ fmap markdownToHtml' (markdownFromFile "Lessons/01-gettingstartedevaluate.md")
+        mm2 <- let fpth = ((lessonsPath::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
+               in liftIO $ fmap markdownToHtml' (markdownFromFile fpth) 
         case mm2 of 
             Left _ -> error "Error!"
             Right cont -> $(widgetFile "widget/lessoncontent")
