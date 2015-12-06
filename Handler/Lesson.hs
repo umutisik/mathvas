@@ -8,7 +8,7 @@ import Widget.RunResult
 import Text.Julius (rawJS)
 import Database.Persist.Sql (toSqlKey)
 import Settings.Environment
-
+import Util.Util
 import Yesod.Markdown
 import Text.Pandoc
 
@@ -18,6 +18,8 @@ getLessonR :: Text -> Handler Html
 getLessonR lsntitle = do
     userId <- requireAuthId
     let handlerName = "getLessonR" :: Text
+    _ <- liftIO $ do existo <- liftM (elem lsntitle) allLessonNames
+                     when (existo == False) $ error "Error. Couldn't find lesson. Is this a lesson from the list of lessons?"                  
     defaultLayout $ do
         -- addScript $ StaticR lib_ace_ace_js 
         addStylesheet $ StaticR css_markdown_css
@@ -27,7 +29,7 @@ getLessonR lsntitle = do
         mm2 <- let fpth = ((lessonsPath::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
                in liftIO $ fmap markdownToHtml' (markdownFromFile fpth) 
         case mm2 of 
-            Left _ -> error "Error!"
+            Left _ -> error "Error. Could not find or process the lesson file."
             Right cont -> $(widgetFile "widget/lessoncontent")
         
 
@@ -44,6 +46,8 @@ markdownWriterOptions = def
 mathJaxJsUrl = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 
 
+allLessonNames :: IO [Text]
+allLessonNames = (liftM (map fst)) (parseLessonList ((lessonsPath ++ "lesson_list")::FilePath)) 
 
 
 
