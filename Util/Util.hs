@@ -16,13 +16,16 @@ parseLessonList fileName = do
 
 lessonListParser :: GenParser Char st [(Text,Text)]
 lessonListParser = 
-    do result <- many line
+    do result <- many (line <||> skipLine)
        eof
-       return result
+       return (filter (/= ("","")) result)
+
+skipLine = do _ <- eol
+              return ("","")
 
 line :: GenParser Char st (Text,Text)
 line  = 
-    do manyTill anyChar (char '\"')
+    do char '\"'
        e1 <- manyTill anyChar (char '\"')
        manyTill anyChar (char '\"')
        e2 <- manyTill anyChar (char '\"')
@@ -33,4 +36,5 @@ eol :: GenParser Char st Char
 eol = char '\n'
 
   
+(<||>) = (Text.ParserCombinators.Parsec.<|>)
 
