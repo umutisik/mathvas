@@ -11,7 +11,14 @@
     $(document).on("click", ".run", function(e) {
     
         RunResult.clear();
-        RunResult.showInfo("Running...");
+        var runMessageList=["Check your posture.", 
+                            "This is gonna be great!", 
+                            "This is going to be beautiful.", 
+                            "Lez do dis." , 
+                            "This is gonna be the real deal."
+                            ];
+        randomMessage =  "Running... " + runMessageList[Math.floor(Math.random()*runMessageList.length)];
+        RunResult.showInfo(randomMessage);
 
         //var version = Meta.getLanguageVersion();
         var version = 1;

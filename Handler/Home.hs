@@ -37,10 +37,9 @@ getHomeR = do
                        aDomId <- newIdent
                        setTitle "Studio Math!"
                        $(widgetFile "homepage")
-                       activitiesWidget $ Just "Choose what to do"
-                       (lift (parseLessonList $ ((lessonsPath ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Lessons")) 
-                       --utl :: ([(Text,Text)] -> WidgetT App IO ()) -> IO [(Text,Text)] -> WidgetT App IO ()
-                       --utl f t = (lift t) >>= f  
+                       (lift (parseLessonList $ ((lessonsPath ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Tutorials")) 
+                       activitiesWidget $ Just "Activities"
+
 
 postHomeR :: Handler Html
 postHomeR = do

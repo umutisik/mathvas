@@ -1,3 +1,7 @@
 Complete the registration by following the link below.
+<br>
 
 #{url}
+
+<br>
+The email address: #{userEmail} was entered on a web-page for a registration request. If you did not request a registration, you can safely ignore this message. 

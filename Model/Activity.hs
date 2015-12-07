@@ -35,6 +35,19 @@ evaluate = Activity { activityId = "evaluate"
                        , firstLineNumber = 1
                        }
 
+graph :: Activity
+graph = let templateFileText = decodeUtf8 $(embedFile "snippet_code_templates/graph.hs")
+            [abv, stude, blw] = take 3 $ splitOn templateSplitterString templateFileText
+         in Activity { activityId = "graph"
+                       , activityTitle = "Graph"
+                       , activityHiddenCodeBelow = blw
+                       , activityHiddenCodeAbove = abv
+                       , activityStudentCodeDefault = stude
+                       , hasImageResult = True
+                       , firstLineNumber = (Data.Text.count "\n" abv) + 1
+                       }
+
+
 images :: Activity
 images = let templateFileText = decodeUtf8 $(embedFile "snippet_code_templates/images.hs")
              [abv, stude, blw] = take 3 $ splitOn templateSplitterString templateFileText
@@ -62,12 +75,13 @@ grayscale = let templateFileText = decodeUtf8 $(embedFile "snippet_code_template
 
 
 allActivities :: [Activity]
-allActivities = [evaluate, grayscale, images, openHaskell]
+allActivities = [evaluate, graph, grayscale, images, openHaskell]
 activityFromId :: Text -> Activity
 activityFromId "openHaskell" = openHaskell
 activityFromId "images" = images
 activityFromId "grayscale" = grayscale
 activityFromId "evaluate" = evaluate
+activityFromId "graph" = graph
 --activityFromId _ = openHaskell
 
 templateSplitterString = "--STUDENTCODEDELIMITER---\n"

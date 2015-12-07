@@ -23,6 +23,7 @@ import Text.Email.Validate (EmailAddress, emailAddress)
 import Network.API.Mandrill (MandrillResponse(..), runMandrill, sendEmail, newTextMessage)
 import Data.Maybe (fromJust)
 
+import Settings.Environment
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -249,10 +250,10 @@ instance YesodAuthSimple App where
 
     userExistsTemplate = $(widgetFile "auth/user-exists")
 
-    sendVerifyEmail email url = do
+    sendVerifyEmail email userEmail url = do
         let toAddress = fromJust $ emailAddress $ encodeUtf8 email
         let subject = "Registration Link"
-        let msg = registerEmailMsg url
+        let msg = registerEmailMsg url userEmail
         liftIO $ mandrillSend fromAddress toAddress subject msg
 
     sendResetPasswordEmail email url = do
@@ -275,8 +276,8 @@ mandrillSend fromAddr toAddr subject msg = do
 fromAddress :: EmailAddress
 fromAddress = fromJust $ emailAddress "studiomath@isikumut.com"
 
-registerEmailMsg :: Text -> Text
-registerEmailMsg url =
+registerEmailMsg :: Text -> Text -> Text
+registerEmailMsg url userEmail =
     toStrict $ toLazyText $(stextFile "templates/email/register.txt")
 
 resetPasswordEmailMsg :: Text -> Text

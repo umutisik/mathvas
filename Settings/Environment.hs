@@ -1,5 +1,5 @@
 module Settings.Environment (
-    mandrillToken, lessonsPath,
+    mandrillToken, lessonsPath, openRegistration, adminEmail
 ) where
 
 import ClassyPrelude.Yesod
@@ -12,3 +12,6 @@ mandrillToken = return ("XA-x_poftOTL11S-tei3bg"::Text)
 
 
 lessonsPath = "Lessons/"
+
+openRegistration = False
+adminEmail = "umutisik@gmail.com"

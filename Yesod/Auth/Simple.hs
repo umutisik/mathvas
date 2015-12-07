@@ -42,7 +42,7 @@ import Data.ByteString (ByteString)
 import Data.Maybe (fromJust)
 import GHC.Generics
 import Network.HTTP.Types (status400)
-
+import Settings.Environment
 
 data Passwords = Passwords {
     pass1 :: Text,
@@ -90,7 +90,7 @@ type SaltedPass = Text
 class (YesodAuth site, PathPiece (AuthSimpleId site)) => YesodAuthSimple site where
     type AuthSimpleId site
 
-    sendVerifyEmail :: Email -> VerUrl -> HandlerT site IO ()
+    sendVerifyEmail :: Email -> Email -> VerUrl -> HandlerT site IO ()
     sendVerifyEmail = printVerificationEmail
 
     sendResetPasswordEmail :: Email -> VerUrl -> HandlerT site IO ()
@@ -188,11 +188,17 @@ postRegisterR = do
             token <- liftIO $ encryptRegisterToken email'
             renderUrl <- getUrlRender
             let url = renderUrl $ confirmR token
-            lift $ sendVerifyEmail email' url
+            case openRegistration of
+              True  -> do lift $ sendVerifyEmail email' email' url
+              False -> do admEmail <- validateAndNormalizeEmail adminEmail
+                          case admEmail of
+                            Just admEmail' -> lift $ sendVerifyEmail admEmail' email' url
+                            Nothing        -> error "something is wrong with the approval system for new registrations"
             redirect $ confirmationEmailSentR
         Nothing -> do
             setError "Invalid email address"
             redirect registerR
+            
 
 postResetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 postResetPasswordR = do
@@ -525,9 +531,9 @@ encodeToken = decodeUtf8With lenientDecode . B64Url.encode . B64.decodeLenient
 decodeToken :: Text -> ByteString
 decodeToken = B64.encode . B64Url.decodeLenient . encodeUtf8
 
-printVerificationEmail :: YesodAuthSimple master => Email -> VerUrl -> HandlerT master IO ()
-printVerificationEmail email verurl =
-    liftIO $ putStrLn $ unpack $ concat ["Sending verify email to: ", email, " url: ", verurl]
+printVerificationEmail :: YesodAuthSimple master => Email -> Email -> VerUrl -> HandlerT master IO ()
+printVerificationEmail email userEmail verurl =
+    liftIO $ putStrLn $ unpack $ concat ["Sending verify email to: ", email, "For user email:", userEmail, " url: ", verurl]
 
 printResetPasswordEmail :: YesodAuthSimple master => Email -> VerUrl -> HandlerT master IO ()
 printResetPasswordEmail email verurl =

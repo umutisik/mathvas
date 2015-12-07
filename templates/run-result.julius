@@ -19,8 +19,9 @@ RunResult = (function() {
 
     //alert("Hello! I am an alert box!!" + selector);
                 
-    function showInfo() {
-        showPanel("info", "Running...");
+    function showInfo(msg) {
+
+        showPanel("info", msg);
     }
 
     function hideInfo() {
