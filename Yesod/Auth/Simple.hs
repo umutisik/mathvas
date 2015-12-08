@@ -188,9 +188,11 @@ postRegisterR = do
             token <- liftIO $ encryptRegisterToken email'
             renderUrl <- getUrlRender
             let url = renderUrl $ confirmR token
-            case openRegistration of
+            openr <- liftIO $ openRegistration
+            case openr of
               True  -> do lift $ sendVerifyEmail email' email' url
-              False -> do admEmail <- validateAndNormalizeEmail adminEmail
+              False -> do adminEmail' <- liftIO adminEmail
+                          admEmail <- validateAndNormalizeEmail adminEmail'
                           case admEmail of
                             Just admEmail' -> lift $ sendVerifyEmail admEmail' email' url
                             Nothing        -> error "something is wrong with the approval system for new registrations"

@@ -232,7 +232,8 @@ instance YesodAuthSimple App where
 
     loginTemplate mErr = $(widgetFile "auth/login")
 
-    registerTemplate mErr = $(widgetFile "auth/register")
+    registerTemplate mErr = do openRegistration' <- liftIO openRegistration
+                               $(widgetFile "auth/register")
 
     confirmationEmailSentTemplate = $(widgetFile "auth/confirmation-email-sent")
 

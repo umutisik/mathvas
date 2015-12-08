@@ -26,7 +26,8 @@ getLessonR lsntitle = do
         addScriptRemote mathJaxJsUrl
         setTitle "Studio Math!"
         $(widgetFile "homepage")
-        mm2 <- let fpth = ((lessonsPath::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
+        lessonsPath' <- liftIO lessonsPath
+        mm2 <- let fpth = (((unpack lessonsPath')::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
                in liftIO $ fmap markdownToHtml' (markdownFromFile fpth) 
         case mm2 of 
             Left _ -> error "Error. Could not find or process the lesson file."
@@ -47,7 +48,8 @@ mathJaxJsUrl = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS
 
 
 allLessonNames :: IO [Text]
-allLessonNames = (liftM (map fst)) (parseLessonList ((lessonsPath ++ "lesson_list")::FilePath)) 
+allLessonNames = do lessonsPath' <- lessonsPath
+                    (liftM (map fst)) (parseLessonList ((unpack lessonsPath' ++ "lesson_list")::FilePath)) 
 
 
 

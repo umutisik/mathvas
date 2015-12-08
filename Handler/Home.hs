@@ -37,7 +37,8 @@ getHomeR = do
                        aDomId <- newIdent
                        setTitle "Studio Math!"
                        $(widgetFile "homepage")
-                       (lift (parseLessonList $ ((lessonsPath ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Tutorials")) 
+                       lessonsPath' <- liftIO lessonsPath
+                       (lift (parseLessonList $ ((unpack lessonsPath' ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Tutorials")) 
                        activitiesWidget $ Just "Activities"
 
 
