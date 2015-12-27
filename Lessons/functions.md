@@ -1,9 +1,28 @@
-Getting started: writing down and evaluating functions
+Writing down and evaluating functions
 ============================================================
 
-This is some markdown. Testo testo testo. A function's a function bruh! You write it down and it get computed by the haskell. 
+The coding environment in Studio Math is a place where you can write functions. Here is a function:
 
-An h1 header
+$$f:  \mathbb{R} \rightarrow \mathbb{R}$$
+$$f(x)= x^2$$
+
+This function takes in a number, and returns the square. 
+
+Here is how you would write it as code:
+
+~~~haskell
+f :: R -> R
+f x = x^2
+~~~
+
+This is a good time to open a new window, go to the 'New' page and click 'Evaluate'. 
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
+#An h1 header
 
 Paragraphs are separated by a blank line.
 
