@@ -1,0 +1,14 @@
+
+.subcontent {
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 800px;
+}
+
+.showbtn {
+	margin-left: 14px;
+}
+
+.hidebtn {
+	margin-left: 14px;
+}

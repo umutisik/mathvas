@@ -1,0 +1,18 @@
+(function(){
+	
+	$(document).ready(function(){
+
+    $("#show#{rawJS $ show idno}").click(function(){
+        $("#showhidecontent#{rawJS $ show idno}").removeClass("hide");
+        $("#hide#{rawJS $ show idno}").removeClass("hide");
+        $("#show#{rawJS $ show idno}").addClass("hide");
+    });
+    $("#hide#{rawJS $ show idno}").click(function(){
+        $("#showhidecontent#{rawJS $ show idno}").addClass("hide");
+        $("#hide#{rawJS $ show idno}").addClass("hide");
+        $("#show#{rawJS $ show idno}").removeClass("hide");
+    });
+
+    });
+    
+})();

@@ -22,6 +22,24 @@ This is the answer bruh.
 Note: It is not clear what the question was.
 @@@
 
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
 #An h1 header
 
 Paragraphs are separated by a blank line.
@@ -95,6 +113,51 @@ normasin t = (1 + sin t)/2
 
 
 ~~~
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
+@@@
+This is the answer bruh.
+Note: It is not cl asldf kalsj dfkl;ja slkdfjal;ksj dflkj as;ldkfj l;kaj sdl;kfj as;lkdjf ;lkasj dfl;kj asl;kdjf l;kasj dfl;kj asl;kdfj l;kasj dfl;kj asl;kdj fl;kajs dfl;kjasl;dkfj al;ksjdfl;kajs dl ;fkja;lksjd f;lkajs d;lkfj al;ksdj f;klajsd f;lkjas;dklfjakl;s jdf;klaj sd;lfkj a;klsdjf lkajsdf ;lkajsdlk f
+
+
+
+~~~haskell
+import Time
+testo f = case f of 
+            _ -> 1
+
+-- this is the function that will be drawn 
+theFunctionToDraw = f
+
+f :: R -> R -> R
+f x y = weir (x^2+y^2)
+
+weir t 
+    | t<=0       = 0
+    | t>=1       = 1
+    | otherwise  = (normasin (100*t))*(sqrt $ sqrt t)
+    
+normasin t = (1 + sin t)/2
+
+
+~~~
+
+
+
+
+ear what the question was.
+@@@
+
+
+@@@
+This is the answer bruh.
+Note: It is not clear what the question was.
+@@@
+
 
 
 

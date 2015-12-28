@@ -24,6 +24,7 @@ library
                      Widget.RunResult
                      Widget.Activities
                      Widget.LessonList
+                     Widget.SubContent
                      Settings
                      Settings.StaticFiles
                      Settings.Environment
