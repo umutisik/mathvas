@@ -54,7 +54,7 @@ writeAndRunGHC activity userid thecode imgsz maxruntm =  do  tim <- liftM show $
                                                              let fileName = userid ++ ("_"::Text) ++ (pack tim)
                                                              let fnm = localBuildingPath' ++ "hsfiles/" ++ fileName ++ ".hs"
                                                              writeFile (unpack fnm) thecode
-                                                             let cmd = ("sh " ++ localBuildingPath' ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath' ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imgsz) 
+                                                             let cmd = ("bash " ++ localBuildingPath' ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath' ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imgsz) 
                                                              globalTimeLimitOnRuns' <- liftIO $ globalTimeLimitOnRuns
                                                              let timeLimit = min globalTimeLimitOnRuns' (1000000*maxruntm)
                                                              outfromrun <- timeout timeLimit $ readCreateProcessWithExitCode (shell (unpack cmd)) ""

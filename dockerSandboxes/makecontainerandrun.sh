@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # usage: enter the file name without extension for the first argument
 #                  the folder the file is in including the / sign!
 # e.g. makecontainerandrun.sh helloworld /home/username/
@@ -9,6 +9,7 @@ HASIMAGES="$3"
 IMAGESIZE="$4"
 CNAME=$FILENAME
 
+#remove this line on linux, it is not necessary
 eval "$(docker-machine env default)"
 
 docker run -d -it --name $CNAME umutcoderunner/haskell bash > /dev/null

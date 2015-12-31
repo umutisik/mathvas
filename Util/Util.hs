@@ -16,7 +16,7 @@ parseLessonList fileName = do
 
 lessonListParser :: GenParser Char st [(Text,Text)]
 lessonListParser = 
-    do result <- many (line <||> skipLine)
+    do result <- Text.ParserCombinators.Parsec.many (line <||> skipLine)
        eof
        return (filter (/= ("","")) result)
 
