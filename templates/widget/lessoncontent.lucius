@@ -1,7 +1,12 @@
 
 .maincont {
-   margin-top: 40px;
+   margin-top: 10px;
    margin-right: auto;
    margin-left: auto;
    max-width: 800px;
+}
+
+.h2 {
+	margin-top: 12px;
+	margin-bottom: 10px;
 }

@@ -2,6 +2,8 @@
 .subcontent {
    margin-right: auto;
    margin-left: auto;
+   margin-top: 0px;
+   margin-bottom: 0px;
    max-width: 800px;
 }
 

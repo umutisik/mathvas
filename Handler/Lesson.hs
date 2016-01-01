@@ -49,23 +49,6 @@ getLessonR lsntitle = do
 
         sequence_ $ map handl lsmm
 
-        --let elem = liftM (snd . (Data.List.head)) (markdownListFromFile fpth) 
-        --mm2 <- liftIO $ (fmap markdownToHtml') elem
-        --case mm2 of 
-        --    Left _ -> error "Error. Could not find or process the lesson file."
-        --    Right conten -> let cont = conten
-        --                    in $(widgetFile "widget/lessoncontent")
-                
-        --mm2 <- let fpth = (((unpack lessonsPath')::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
-        --       in liftIO $ fmap markdownToHtml' (markdownFromFile fpth) 
-        --case mm2 of 
-        --    Left _ -> error "Error. Could not find or process the lesson file."
-        --    Right conten -> let cont = conten
-        --                    in $(widgetFile "widget/lessoncontent")
-        
-
-
---addShowHideCustomization ht = toHtml $ concat (splitOn "@@@" (pack . show $ ht))
 
 markdownToHtml' = fmap (writePandoc markdownWriterOptions)
                          . parseMarkdown yesodDefaultReaderOptions
