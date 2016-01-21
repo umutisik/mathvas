@@ -1,33 +1,67 @@
-Functions and this site
+Functions and Types
 ==========================
 
-Welcome. In this first tutorial, I will explain how to write basic mathematical functions in Haskell and how to use this web site. Feel free to read the parts you may already know about more quickly; but I assure you things get interesting eventually.   
+Welcome. In this first tutorial, I will explain how to write basic mathematical functions in writing and in code. You probably intuitively know a lot of this, but I assure you, things get interesting eventually.   
 
-What is a function?
--------------------
+### Types
+
+Let's try to think about some kinds of mathematical objects. Here are some that I can think of:
+
+* Integers, $$\mathbb{Z} = \{ ..,-2,-1,0,1,2,... \}$$
+* Fractions, or rational numbers, denoted $\mathbb{Q}$.
+* Real numbers, $\mathbb{R}$, which are numbers that represent lengths.
+* Points
+* Pairs (x,y) of real numbers, denoted $\mathbb{R}^2 = \mathbb{R}\times \mathbb{R}$, which correspond to points on a plane.
+* More generally, pairs of any two kinds, like $\mathbb{Z}\times \mathbb{Z}$, or $\mathbb{Q}\times \mathbb{R}$, or $\mathbb{Z}\times ( \mathbb{Z} \times \mathbb{Z})$,... 
+* Lines
+* Circles
+* ... 
+
+Every object has a "type", which is the official word for what kind of object it is. Types help us make sure our mathematical statements make sense. If I say, "The circle $C$ is equal to the fraction $q$", it does not make sense. Types help us keep track of this kind of thing. 
+
+ 
+### What is a function?
 
 Even if you don't use the word regularly, you already know a lot about functions. 
 
-A function is a mathematical object that takes in an input, and gives an output. 
+A function is a mathematical object that takes in an input, and produces an output. 
 Here is a function:
 $$f(x)= x^2$$
 
-You give $f$ a number $x$ and it gives you back, $x^2$ the square. So $f(2)=4$, $f(3)=9$ etc.
+You give $f$ a number $x$ and it gives you back, $x^2$ the square. So $f(2)=4$, $f(3)=9$, ...
 
-When writing down a function, we can also write what kind things it takes and what kinds of things it gives. What does $f(x)=x^2$ take and give? It takes in numbers and gives numbers. What kinds of numbers? Let's say real numbers. If we write the set of real numbers as $\mathbb{R}$, then we can write $f$ as: 
+Here is another function, $$h(x) = \frac{x}{2}$$. 
 
-$$f:  \mathbb{R} \rightarrow \mathbb{R}$$
-$$f(x)= x^2$$.
+And another, $$g(x,y) = (y,x)$$
 
-When you write $f: A \rightarrow B$, you call $A$ the source and $B$ the target.
+It doesn't have to be about numbers are coordinates though, let's write a function that takes in a circle on the plane and gives the radius
+$$r(C) = \text{"radius of }C"$$ 
 
-**Question**: What's the nicest function that you can think of?
+Functions are nice because you can model lots of things with them,... the changing of the seasons, the wings of a butterfly... But seriously, you can describe most things in the world as functions. 
 
-Here is another function:
+### Source and Target
+
+When we specify a function, it is important that we know what kinds of objects it takes, and what kinds of objects it doesn't. To write this down, we use the notation:
+$$f: A \rightarrow B$$
+which means that $f$ takes in objects of type $A$ and gives objects of type $B$ as result. $A$ is called the source and $B$ is called the target.  
+
+For example, $f(x)=x^2$, takes in numbers and gives numbers. What kinds of numbers? It's up to us, let's say integers, denoted $\mathbb{Z}$. We write $f$ as: 
+
+$$f:  \mathbb{Z} \rightarrow \mathbb{Z}$$
+$$f(x)= x^2$$
+
+The function $h(x) = \frac{x}{2}$ takes in numbers and gives numbers too, but what kinds of numbers? Since the answer can be $1/2$, it would be a mistake to have the target $\mathbb{Z}$. The target should be rational or real numbers. Let's just do real numbers, denoted $\mathbb{R}$. 
+
+$$h: \mathbb{Z} \rightarrow \mathbb{R}$$
+$$ h(x) = \frac{x}{2} $$
+
+What about the function $r$ that gives the radius of a circle? It would be
+$$r: \operatorname{Circles} \rightarrow \mathbb{R}$$
+We could have decided to represent circles some other way, maybe by keeping track of the center and radius, but let's just have a $\operatorname{Circles}$ type for now. 
+
+Finally, 
 $$g(x,y): \mathbb{R}\times \mathbb{R} \rightarrow \mathbb{R}\times \mathbb{R}  $$
 $$g(x,y) = (y,x)$$
-
-Functions are nice because you can model lots of things with them,... the changing of the seasons, the wings of a butterfly... But seriously, you can describe most things in the world as functions. What does $g$ above do?
 
 
 Writing functions as code
@@ -44,7 +78,7 @@ f x = x
 
 Go ahead and open a new window for your browser and open the Evaluate page. Let's press 'Run' under the code and see what happens. 
 
-As you can see, you just write `f x` instead of $f(x)$. Also, you put two colons instead of one.
+As you can see, you just write `f x` instead of $f(x)$. Also, you put two colons instead of one in the function type.
 
 Ok, let's write our squaring function from before. 
 
@@ -55,7 +89,17 @@ f:: R -> R
 f x = x^2
 ~~~
 
-Go ahead and write this in and press 'Run', so we can see that we are still on this planet. 
+Go ahead and write this in and press 'Run', hopefully it outputs 4 and we are still on this planet. 
+
+The type in Haskell for integers ($\mathbb{Z}$, that is) is called `Integer`.
+
+~~~haskell
+valueToPrint = squaremyint 2
+
+squaremyinteger :: Integer -> Integer 
+squaremtinteger n = n^2
+~~~
+
 
 ### Pritorities
 
@@ -98,15 +142,41 @@ f x = sin (2*x)
 
 **Exercise** What will the following code output?
 
+~~~haskell
+valueToPrint = f 2
+
+f:: R -> R
+f x = g x+1*2
+
+g:: R -> R
+g x = x + x * x 
+~~~
+Click 'Show' to see the answer. 
+@@@
+We know that function application is first, then multiplication, then addition
+
+~~~haskell 
+valueToPrint = f 2
+
+f:: R -> R
+f x = (g x)+(1^2)
+
+g:: R -> R
+g x = x + (x * x) 
+~~~
+So `g 2 = 2 + (2*2) = 6`
+So `f 2 = (g 2) + 1 = 7`
+@@@
+
 
 
 Graphing functions
 -------------------
 
-If you now open the 'Graph' page, you can draw the graph of any function you like. 
-Yes, our grandparents were doing this on their calculators when they were in primary school, but at least we are doing it (kind of) in style.
+If you now open the 'Graph' page, you can draw the graph of any function $f:R -> R$ that you like. 
+Yes, our grandparents were doing this on their calculators when they were in primary school, but at least we are doing it in style.
 
-Let's try running the following. 
+Let's try running the following. (go ahead and paste this code in the Graph page and run it)
  
 ~~~haskell
 -- this is the function that will be graphed 
@@ -128,7 +198,7 @@ Here's a funny graph.
 
 ![](/static/img/graph_question_1.jpeg "The graph in question")
 
-Let's figure out which function is going to give us the graph above. Use the grapher to see if you got it right before looking. 
+Let's figure out which function is going to give us the graph above. Once you think you got it, go ahead and write it into the Graph page to see if you got it right. (Hint, you will need the number $\pi$, in Haskell, it is called `pi`) Click 'Show' below to see the answer. 
 @@@
 The function looks like the sine function. But if we just graph `f x = sin x`, it doesn't look the same because it doesn't go up and down twice and end at $0$, that's why we put 
 
@@ -138,280 +208,93 @@ theFunctionToGraph = f
 f:: R -> R
 f x = sin (2*pi*x)
 ~~~
+
 @@@
 
+### Some built-in functions
+
+Here are some standard functions in Haskell and their types. 
+ 
+~~~haskell
+floor :: R -> Integer
+-- "floor x" is  the greatest integer not greater than x 
+
+abs :: R -> R
+-- absolute value
+ 
+log :: R -> R
+-- logarithm function
+~~~
 
 
+## Defining functions case by case
 
-asdf
--------------
+Let's say I want to define the function which has the following graph:
 
+![](/static/img/graph_question_2.jpeg "The graph in question")
 
-This is a very simple site. There are two types of pages: tutorials and activities. 
-
-On the activities pages, there is a coding environment where you can:
-
-* Evaluate functions
-* Graph functions
-* Make Grayscale images from functions
-* Make color Images from functions
-* Write and run haskell programs
-
-That's right, all the coding on this site is based on the programming language called Haskell.
-
-
-
-$$f:  \mathbb{R} \rightarrow \mathbb{R}$$
-$$f(x)= x^2$$
-
-This function takes in a number, and returns the square. 
-
-Here is how you would write it as code:
-* Mathematical functions that are evaluated (Evaluate).
+I would like to say that if $x<0$ then $f(x) = -0.5$ and if  $x\geq 0$ then $f(x) = 0.5$. Here is how you write this in code:
 
 ~~~haskell
-f :: R -> R
-f x = x^2
+theFunctionToGraph = f
+ 
+f:: R -> R
+f x = if x<0 then 0.5 else (-0.5) 
 ~~~
 
-This is a good time to open a new window, go to the 'New' page and click 'Evaluate'. 
-
-@@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
-
-
-@@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
-
-
-@@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
-
-
-@@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
-
-#An h1 header
-
-Paragraphs are separated by a blank line.
-
-2nd paragraph. *Italic*, **bold**, and `monospace`. Itemized lists
-look like:
-
-  * this one
-  * that one
-  * the other one
-
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
-
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
-
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-Unicode is supported. ☺
-
-
-
-An h2 header
-------------
-
-Here's a numbered list:
-
- 1. first item
- 2. second item
- 3. third item
-
-Note again how the actual text starts at 4 columns in (4 characters
-from the left side). Here's a code sample:
-
-    # Let me re-iterate ...
-    for i in 1 .. 10 { do-something(i) }
-
-As you probably guessed, indented 4 spaces. By the way, instead of
-indenting the block, you can use delimited blocks, if you like:
-
-~~~
-define foobar() {
-    print "Welcome to flavor country!";
-}
-~~~
-
-(which makes copying & pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:
+Now what will this code produce?
 
 ~~~haskell
-import Time
-testo f = case f of 
-            _ -> 1
-
--- this is the function that will be drawn 
-theFunctionToDraw = f
-
-f :: R -> R -> R
-f x y = weir (x^2+y^2)
-
-weir t 
-    | t<=0       = 0
-    | t>=1       = 1
-    | otherwise  = (normasin (100*t))*(sqrt $ sqrt t)
-    
-normasin t = (1 + sin t)/2
-
-
+theFunctionToGraph = f
+ 
+f:: R -> R
+f x = if (x^2<0.49) then x^2 else 0.49
 ~~~
+	
+<br>
+How would you make a function with this graph?
+
+![](/static/img/graph_question_3.jpeg "The graph in question")
+
+
+Here's how you would write this function in math:
+
+$$f(x) =
+\left\{
+	\begin{array}{ll}
+		0  & \mbox{if } x \leq 0 \\
+		x & \mbox{if } 0 < x \leq 0.5 \\
+                0.5 & \mbox{otherwise }
+	\end{array}
+\right.$$
+
+**Exercise** Let's write the code for this function using the `if-then-else` combo.
 
 @@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
 
-@@@
-This is the answer bruh.
-Note: It is not cl asldf kalsj dfkl;ja slkdfjal;ksj dflkj as;ldkfj l;kaj sdl;kfj as;lkdjf ;lkasj dfl;kj asl;kdjf l;kasj dfl;kj asl;kdfj l;kasj dfl;kj asl;kdj fl;kajs dfl;kjasl;dkfj al;ksjdfl;kajs dl ;fkja;lksjd f;lkajs d;lkfj al;ksdj f;klajsd f;lkjas;dklfjakl;s jdf;klaj sd;lfkj a;klsdjf lkajsdf ;lkajsdlk f
-
-
+We want to make $f(x)=0$ when $x<0$, $f(x)=x$ when $0<x<0.5$ and $f(x)=0.5$ for $x>0.5$.
 
 ~~~haskell
-import Time
-testo f = case f of 
-            _ -> 1
+theFunctionToGraph = f
+ 
+f:: R -> R
+f x = if x<=0 then 0 else (if x<=0.5 then x else 0.5)
+~~~
+@@@
 
--- this is the function that will be drawn 
-theFunctionToDraw = f
+There is actually another way to do this, which looks more like the math.
 
-f :: R -> R -> R
-f x y = weir (x^2+y^2)
-
-weir t 
-    | t<=0       = 0
-    | t>=1       = 1
-    | otherwise  = (normasin (100*t))*(sqrt $ sqrt t)
-    
-normasin t = (1 + sin t)/2
-
-
+~~~haskell
+f:: R -> R
+f x 
+  | x<=0       = 0
+  | x<=0.5     = x
+  | otherwise  = 0.5 
 ~~~
 
+Notice how there is no equals sign after `f x`. The way this works is that the computer checks the cases line by line. In the first line, if `x<=0` then it's done, the answer is 0. It only looks at the second line if it is not true that `x<=0`. Finally, if it gets to the `otherwise`, then it just says what it says there, i.e. give `0.5`.
 
-
-
-ear what the question was.
-@@@
-
-
-@@@
-This is the answer bruh.
-Note: It is not clear what the question was.
-@@@
-
-
-
-
-### An h3 header ###
-
-Now a nested list:
-
- 1. First, get these ingredients:
-
-      * carrots
-      * celery
-      * lentils
-
- 2. Boil some water.
-
- 3. Dump everything in the pot and follow
-    this algorithm:
-
-        find wooden spoon
-        uncover pot
-        stir
-        cover pot
-        balance wooden spoon precariously on pot handle
-        wait 10 minutes
-        goto first step (or shut off burner when done)
-
-    Do not bump wooden spoon or it will fall.
-
-Notice again how text always lines up on 4-space indents (including
-that last line which continues item 3 above).
-
-Here's a link to [a website](http://foo.bar), to a [local
-doc](local-doc.html), and to a [section heading in the current
-doc](#an-h2-header). Here's a footnote [^1].
-
-[^1]: Footnote text goes here.
-
-Tables can look like this:
-
-size  material      color
-----  ------------  ------------
-9     leather       brown
-10    hemp canvas   natural
-11    glass         transparent
-
-Table: Shoes, their sizes, and what they're made of
-
-(The above is the caption for the table.) Pandoc also supports
-multi-line tables:
-
---------  -----------------------
-keyword   text
---------  -----------------------
-red       Sunsets, apples, and
-          other red or reddish
-          things.
-
-green     Leaves, grass, frogs
-          and other things it's
-          not easy being.
---------  -----------------------
-
-A horizontal rule follows.
-
-***
-
-Here's a definition list:
-
-apples
-  : Good for making applesauce.
-oranges
-  : Citrus!
-tomatoes
-  : There's no "e" in tomatoe.
-
-Again, text is indented 4 spaces. (Put a blank line between each
-term/definition pair to spread things out more.)
-
-Here's a "line block":
-
-| Line one
-|   Line too
-| Line tree
-
-and images can be specified like so:
-
-![example image](/static/img/empty-image.jpg "An exemplary image")
-
-Inline math equations go in like so: $\omega = d\phi / dt$. Display
-math should get its own line and be put in in double-dollarsigns:
-
-$$I = \int \rho R^{2} dV$$
-
-And note that you can backslash-escape any punctuation characters
-which you wish to be displayed literally, ex.: \`foo\`, \*bar\*, etc.
+<br><br> 
 
 
 

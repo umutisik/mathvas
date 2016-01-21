@@ -28,7 +28,7 @@ openHaskell = Activity { activityId = "openHaskell"
 evaluate :: Activity
 evaluate = Activity { activityId = "evaluate"
                        , activityTitle = "Evaluate"
-                       , activityHiddenCodeBelow = ""
+                       , activityHiddenCodeBelow = "\ntype R = Double\n"
                        , activityHiddenCodeAbove = "main = putStrLn $ show valueToPrint\n"
                        , activityStudentCodeDefault = "valueToPrint = f 1\n\nf x = x"::Text
                        , hasImageResult = False
