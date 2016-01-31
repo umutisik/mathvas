@@ -28,16 +28,41 @@ f:: R -> R
 f x = sin (pi*x) 
 
 --STUDENTCODEDELIMITER---
+
 theFunctionToDraw = myFunction01
 
 myFunction01 :: R -> R -> (R,R,R)
-myFunction01 = graphFunction theFunctionToGraph
+myFunction01 = graphFunction' theFunctionToGraph
 
-graphFunction f x y   | ((abs (y - f x)<epsilon1) || (abs (y - f (x+epsilon2)) < epsilon1) || (abs (y - f (x-epsilon2)) < epsilon1) )  = tripleDiagonal 0
-                      | (abs x < epsilon2) || (abs y < epsilon2)  = tripleDiagonal 0.3
-                      | otherwise  = tripleDiagonal 1
-                              where epsilon1 =0.01
-                                    epsilon2 =0.005
+graphFunction' f x y = tripleDiagonal $ graphFunction f x y
+graphFunction f x y  
+  |  (abs x < epsilon2) || (abs y < epsilon2)   = 0.3
+  |  tooSteep p1 p2     = if (lensquare (x,y - f x) < epsilon1) then 0 else 1
+  |  otherwise          = if distanceToLineSquare p1 p2 (x,y) < epsilon1 
+                                          then 0 
+                                          else 1
+                                where epsilon1 =0.0001
+                                      epsilon2 =0.001
+                                      p1 = (x - epsilon2, f (x-epsilon2))
+                                      p2 =  (x + epsilon2, f (x + epsilon2))
+
+
+
+-- code useful for graphing
+
+distanceToLineSquare :: (R,R) -> (R,R) -> (R,R) -> R
+distanceToLineSquare (x1,y1) (x2,y2) (px,py) = let v1 = (x2-x1,y2-y1) 
+                                                   v2 = (px-x1,py-y1)
+                                                   d1 = dotp v1 v2
+                                               in ((lensquare v2) - (d1^2)/(lensquare v1))
+
+distanceToLine  (x1,y1) (x2,y2) (px,py) = sqrt (distanceToLineSquare  (x1,y1) (x2,y2) (px,py))
+
+dotp (x1,y1) (x2,y2) = x1*x2+y1*y2
+lensquare (x,y) = x^2 + y^2
+
+
+tooSteep (x1,y1) (x2,y2) = if (abs (y2-y1)) > 200*(abs (x2-x1)) then True else False
  
 -- global settings
 defaultWidth :: Int

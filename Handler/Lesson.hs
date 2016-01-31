@@ -33,7 +33,7 @@ getLessonR lsntitle = do
         -- addScript $ StaticR lib_ace_ace_js 
         addStylesheet $ StaticR css_markdown_css
         addScriptRemote mathJaxJsUrl
-        setTitle "Studio Math!"
+        setTitle "Mathvas - Tutorial"
         $(widgetFile "homepage")
         lessonsPath' <- liftIO lessonsPath
         let fpth = (((unpack lessonsPath')::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 

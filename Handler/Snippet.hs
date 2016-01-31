@@ -7,6 +7,7 @@ import Widget.Editor
 import Widget.RunResult
 import Text.Julius (rawJS)
 import Database.Persist.Sql (fromSqlKey)
+import Text.Blaze (text)
 
 getSnippetR :: StoredSnippetId -> Handler Html
 getSnippetR sId = do	    
@@ -24,7 +25,7 @@ getSnippetR sId = do
                                               defaultLayout $ do
                                               aDomId <- newIdent
                                               addScript $ StaticR lib_ace_ace_js 
-                                              setTitle "Studio Math!"
+                                              setTitle $ text ("Mathvas - " ++ (snippetTitle snippet))
                                               $(widgetFile "homepage")
                                               $(widgetFile "compose")
                                       else error "There was a problem with your access permissions to this code." 

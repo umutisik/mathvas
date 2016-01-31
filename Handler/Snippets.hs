@@ -15,7 +15,7 @@ getSnippetsR = do
             snippetList <- runDB $ selectList [StoredSnippetSnippetOwner ==. userId] [Desc StoredSnippetSnippetModified]
             defaultLayout $ do
                                               aDomId <- newIdent
-                                              setTitle "Studio Math!"
+                                              setTitle "Mathvas - My Code"
                                               $(widgetFile "homepage")
                                               $(widgetFile "snippets")
 

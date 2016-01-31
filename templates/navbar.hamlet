@@ -9,14 +9,14 @@ $newline never
             <span class="icon-bar">
             <span class="icon-bar">
             <span class="icon-bar">
-          <a class="navbar-brand" href="@{HomeR}">Studio Math
+          <a class="navbar-brand" href="@{HomeR}">Mathvas
 
         $# Collect the nav links, forms, and other content for toggling
         <div class="collapse navbar-collapse" id="main-navbar">
           <ul class="nav navbar-nav">
-            <li :currentPage == ChoosePage:.active>
-              <a href="@{NewActivityR}"> New
             $maybe profile <- mProfile
+              <li :currentPage == ChoosePage:.active>
+                <a href="@{NewActivityR}"> New
               <li :currentPage == MyCodePage:.active>
                 <!--<a href="@{UserSnippetsR $ profileUsername profile}">My Code-->
                 <a href="@{SnippetsR}">My Code

@@ -12,10 +12,10 @@
     
         RunResult.clear();
         var runMessageList=["Check your posture.", 
-                            "This is gonna be great!", 
+                            "This is going to be great!", 
                             "This is going to be beautiful.", 
-                            "Lez do dis." , 
-                            "This is gonna be the real deal."
+                            "Let's do this!" , 
+                            "The real deal is coming."
                             ];
         randomMessage =  "Running... " + runMessageList[Math.floor(Math.random()*runMessageList.length)];
         RunResult.showInfo(randomMessage);

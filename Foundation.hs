@@ -275,7 +275,7 @@ mandrillSend fromAddr toAddr subject msg = do
                 error "Failed to send email"
 
 fromAddress :: EmailAddress
-fromAddress = fromJust $ emailAddress "studiomath@isikumut.com"
+fromAddress = fromJust $ emailAddress "mathvas@mathvas.com"
 
 registerEmailMsg :: Text -> Text -> Text
 registerEmailMsg url userEmail =

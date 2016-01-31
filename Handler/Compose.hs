@@ -20,7 +20,7 @@ getComposeR activityName = do
     defaultLayout $ do
         aDomId <- newIdent
         addScript $ StaticR lib_ace_ace_js 
-        setTitle "Studio Math!"
+        setTitle "Mathvas - Compose"
         let snippet = defaultSnippet $ activityFromId activityName
         $(widgetFile "homepage")
         $(widgetFile "compose")

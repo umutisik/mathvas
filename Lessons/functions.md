@@ -1,7 +1,7 @@
 Writing down and evaluating functions
 ============================================================
 
-The coding environment in Studio Math is a place where you can write functions. Here is a function:
+The coding environment of Mathvas is a place where you can write functions. Here is a function:
 
 $$f:  \mathbb{R} \rightarrow \mathbb{R}$$
 $$f(x)= x^2$$

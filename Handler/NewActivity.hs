@@ -8,7 +8,7 @@ import Util.Util
 
 getNewActivityR :: Handler Html
 getNewActivityR = do  mUserId <- requireAuthId
-                      defaultLayout $ do setTitle "New snippet - Choose language"
+                      defaultLayout $ do setTitle "Mathvas - New"
                                          $(widgetFile "new")
                                          lessonsPath' <- liftIO $ lessonsPath
                                          (lift (parseLessonList $ ((unpack lessonsPath' ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Tutorials")) 

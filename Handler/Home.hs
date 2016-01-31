@@ -25,17 +25,16 @@ getHomeR = do
     (formWidget, formEnctype) <- generateFormPost sampleForm
     let submission = Nothing :: Maybe (FileInfo, Text)
         handlerName = "getHomeR" :: Text
-    mUserId <- requireAuthId
-    --case mUserId of     
-    --  Nothing -> defaultLayout $ do 
-    --                    aDomId <- newIdent
-    --                    setTitle "Studio Math!"
-    --                    $(widgetFile "homepage")
-    --                    do let mErr = Nothing
-    --                       $(widgetFile "auth/login")
-    defaultLayout $ do
+    mUserId <- maybeAuthId
+    case mUserId of     
+      Nothing -> defaultLayout $ do 
+                        aDomId <- newIdent
+                        setTitle "Mathvas"
+                        $(widgetFile "welcome")
+                        
+      Just _ -> defaultLayout $ do
                        aDomId <- newIdent
-                       setTitle "Studio Math!"
+                       setTitle "Mathvas!"
                        $(widgetFile "homepage")
                        lessonsPath' <- liftIO lessonsPath
                        (lift (parseLessonList $ ((unpack lessonsPath' ++ "lesson_list")::FilePath))) >>= (lessonListWidget (Just "Tutorials")) 
