@@ -51,7 +51,7 @@ postHomeR = do
 
     defaultLayout $ do
         aDomId <- newIdent
-        setTitle "Welcome To Yesod!"
+        setTitle "Welcome!"
         $(widgetFile "homepage")
 
 sampleForm :: Form (FileInfo, Text)
