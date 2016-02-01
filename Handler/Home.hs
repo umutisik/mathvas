@@ -30,6 +30,7 @@ getHomeR = do
       Nothing -> defaultLayout $ do 
                         aDomId <- newIdent
                         setTitle "Mathvas"
+                        $(widgetFile "homepage")
                         $(widgetFile "welcome")
                         
       Just _ -> defaultLayout $ do

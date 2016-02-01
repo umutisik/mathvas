@@ -80,9 +80,9 @@ instance Yesod App where
         -- you to use normal widget features in default-layout.
 
         pc <- widgetToPageContent $ do
+            addScript $ StaticR lib_jquery_jquery_min_js
             addStylesheet $ StaticR lib_bootstrap_bootstrap_min_css
             addStylesheet $ StaticR css_studiomath_css
-            addScript $ StaticR lib_jquery_jquery_min_js
             addScript $ StaticR js_xhr_js
             addScript $ StaticR lib_bootstrap_bootstrap_min_js
             $(widgetFile "default-layout")
