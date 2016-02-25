@@ -6,7 +6,7 @@ RunResult = (function() {
                 var imgid = result[key];
                 var selector = ".run-result .imageresult ";
                 $(selector).removeClass("hide");
-                $(selector + " .resultim").attr('src', "@{HomeR}" + "/image/" + imgid);
+                $(selector + " .resultim").attr('src', "@{HomeR}" + "image/" + imgid);
             }
             else { 
                 var value = result[key];

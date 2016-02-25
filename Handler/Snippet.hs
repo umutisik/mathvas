@@ -28,7 +28,7 @@ getSnippetR sId = do
                                               setTitle $ text ("Mathvas - " ++ (snippetTitle snippet))
                                               $(widgetFile "homepage")
                                               $(widgetFile "compose")
-                                      else error "There was a problem with your access permissions to this code." 
+                                      else error "There was a problem with your permission access to this code." 
 
 
 deleteSnippetR :: StoredSnippetId -> Handler Value

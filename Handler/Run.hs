@@ -25,7 +25,10 @@ postRunR = do (Entity userId _) <- requireAuth
               case (bdson,mUserName) of               
               	         (Just (RunRequest ac jas imgsz maxruntm snipid ispublic), username) -> let activity = activityFromId ac
                                                                                                     thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
-                                                                                                    codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int)
+                                                                                                    msnipid = if snipid == "none" 
+                                                                                                                then Nothing
+                                                                                                                else Just (read $ unpack snipid)
+                                                                                                    codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int) msnipid ((read $ unpack ispublic)::Bool)
                                                                                                 in (liftM makeMessage $ codeOutput)
               	         _                                                                    -> return runError 
 
@@ -52,8 +55,9 @@ instance FromJSON RunRequest where
 
 
 
-writeAndRunGHC :: Activity -> UserId -> Text -> Text -> Text -> Int -> Int -> HandlerT App IO (Text, Text, Text, Text)
-writeAndRunGHC activity uId usernm enteredCode thecode imgsz maxruntm =  do  tim <- liftIO $ liftM show $ round `fmap` getPOSIXTime
+writeAndRunGHC :: Activity -> UserId -> Text -> Text -> Text -> Int -> Int -> Maybe StoredSnippetId -> Bool -> HandlerT App IO (Text, Text, Text, Text)
+writeAndRunGHC activity uId usernm enteredCode 
+                          thecode imgsz maxruntm snipid isimagepublic =  do  tim <- liftIO $ liftM show $ round `fmap` getPOSIXTime
                                                                              localBuildingPath' <- liftIO $ localBuildingPath
                                                                              let fileName = usernm ++ ("_"::Text) ++ (pack tim)
                                                                              let fnm = localBuildingPath' ++ "hsfiles/" ++ fileName ++ ".hs"
@@ -67,7 +71,7 @@ writeAndRunGHC activity uId usernm enteredCode thecode imgsz maxruntm =  do  tim
                                                                                              _ <- liftIO $ readCreateProcessWithExitCode (shell (unpack cmdtostop)) ""
                                                                                              return ((""::Text) ,(""::Text),(("Run timeout! The program is only allowed " ++ (pack $ show timeLimit) ++ " microseconds")::Text),(""::Text))
                                                                                Just (ecd, stdout, stderr) -> do imid <- if hasImageResult activity 
-                                                                                                                          then writeImageInDatabase uId "" (fileName ++ ".jpeg") activity False enteredCode thecode Nothing
+                                                                                                                          then writeImageInDatabase uId "" (fileName ++ ".jpeg") activity isimagepublic enteredCode thecode Nothing
                                                                                                                           else return Nothing
                                                                                                                 let imidout = case imid of
                                                                                                                        Just imd  -> pack $ show (fromSqlKey imd)
