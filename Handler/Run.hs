@@ -23,11 +23,11 @@ postRunR = do (Entity userId _) <- requireAuth
               body <- liftIO $ lazyRequestBody req
               let bdson = (decode body)::(Maybe RunRequest)
               case (bdson,mUserName) of               
-              	         (Just (RunRequest ac jas imgsz maxruntm), username) -> let activity = activityFromId ac
-                                                                                    thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
-              	                                                                    codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int)
-              	                                                                in (liftM makeMessage $ codeOutput)
-              	         _                                    -> return runError 
+              	         (Just (RunRequest ac jas imgsz maxruntm snipid ispublic), username) -> let activity = activityFromId ac
+                                                                                                    thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
+                                                                                                    codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int)
+                                                                                                in (liftM makeMessage $ codeOutput)
+              	         _                                                                    -> return runError 
 
 
 runError = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text), "imageid" .= (""::Text) ]         
@@ -39,13 +39,15 @@ getUserName uid = do (Entity _ profile) <- runDB $ getBy404 $ UniqueProfile uid
                      return $ profileUsername profile
                          
 -- data structure to help parse the json from the request for postrunr              
-data RunRequest = RunRequest {activity :: Text , text :: Text , imageSize :: Text, maxRunningTime :: Text}
+data RunRequest = RunRequest {activity :: Text , text :: Text , imageSize :: Text, maxRunningTime :: Text, creatorSnippetId :: Text, isPublic :: Text}
 instance FromJSON RunRequest where
  	parseJSON (Object v) = RunRequest <$> 
                           v .: "activity" <*>
                           v .: "file" <*>
                           v .: "imageSize" <*>
-                          v .: "maxRunningTime"
+                          v .: "maxRunningTime" <*>
+                          v .: "creatorSnippetId" <*>
+                          v .: "isPublic"
  	parseJSON _ = mzero
 
 

@@ -15,7 +15,9 @@
                             "This is going to be great!", 
                             "This is going to be beautiful.", 
                             "Let's do this!" , 
-                            "The real deal is coming."
+                            "The real deal is coming.",
+                            "Simple is beautiful!",
+                            "Complicated is beautiful!",
                             ];
         randomMessage =  "Running... " + runMessageList[Math.floor(Math.random()*runMessageList.length)];
         RunResult.showInfo(randomMessage);
@@ -23,12 +25,25 @@
         //var version = Meta.getLanguageVersion();
         var version = 1;
         var url = "@{RunR}" + "?" + $.param({version: version});
-        var payload = {
-            activity: "#{rawJS activityName}",
-            file: Editor.getValue(),
-            imageSize: Settings.getImageSize(),
-            maxRunningTime: Settings.getMaxRunningTime(),
-        };
+
+        if(#{rawJS isExistingSnippet}) 
+            var payload = {
+                activity: "#{rawJS activityName}",
+                file: Editor.getValue(),
+                imageSize: Settings.getImageSize(),
+                maxRunningTime: Settings.getMaxRunningTime(),
+                creatorSnippetId: "#{rawJS snippetId}",
+                isPublic: "True",
+            };
+        else 
+            var payload = {
+                activity: "#{rawJS activityName}",
+                file: Editor.getValue(),
+                imageSize: Settings.getImageSize(),
+                maxRunningTime: Settings.getMaxRunningTime(),
+                creatorSnippetId: "none",
+                isPublic: "True",
+            };
 
 
         XHR.jsonPost(url, payload).done(function(data) {
