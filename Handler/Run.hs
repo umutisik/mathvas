@@ -8,13 +8,15 @@ import Data.Aeson.Types (parseMaybe)
 import Data.Time.Clock.POSIX
 import System.Timeout
 import Text.Read
+import Database.Persist
+import Database.Persist.Sql (fromSqlKey)
 
 import System.Process
 import Settings.Environment
 
 postRunR :: Handler Value
 postRunR = do (Entity userId _) <- requireAuth
-              --let mUserId = Just userId
+              let uId = userId
               (Entity _ profile) <- runDB $ getBy404 $ UniqueProfile userId
               let mUserName = profileUsername profile
               req <- reqWaiRequest <$> getRequest
@@ -23,13 +25,13 @@ postRunR = do (Entity userId _) <- requireAuth
               case (bdson,mUserName) of               
               	         (Just (RunRequest ac jas imgsz maxruntm), username) -> let activity = activityFromId ac
                                                                                     thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
-              	                                                                    codeOutput = writeAndRunGHC activity username thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int)
-              	                                                                in liftIO (liftM makeMessage $ codeOutput)
+              	                                                                    codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int)
+              	                                                                in (liftM makeMessage $ codeOutput)
               	         _                                    -> return runError 
 
 
-runError = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text), "localfilename" .= (""::Text) ]         
-makeMessage (stdo,stde,excode,fnm) = object [ "stdout" .= stdo, "stderr" .= stde, "error" .= excode, "localfilename" .= fnm ]         
+runError = object [ "stdout" .= (""::Text), "stderr" .= (""::Text), "error" .= ("run error"::Text), "imageid" .= (""::Text) ]         
+makeMessage (stdo,stde,excode,fnm) = object [ "stdout" .= stdo, "stderr" .= stde, "error" .= excode, "imageid" .= fnm ]         
 
 
 
@@ -48,20 +50,47 @@ instance FromJSON RunRequest where
 
 
 
-writeAndRunGHC :: Activity -> Text -> Text -> Int -> Int -> IO (Text, Text, Text, Text)
-writeAndRunGHC activity userid thecode imgsz maxruntm =  do  tim <- liftM show $ round `fmap` getPOSIXTime
-                                                             localBuildingPath' <- liftIO $ localBuildingPath
-                                                             let fileName = userid ++ ("_"::Text) ++ (pack tim)
-                                                             let fnm = localBuildingPath' ++ "hsfiles/" ++ fileName ++ ".hs"
-                                                             writeFile (unpack fnm) thecode
-                                                             let cmd = ("bash " ++ localBuildingPath' ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath' ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imgsz) 
-                                                             globalTimeLimitOnRuns' <- liftIO $ globalTimeLimitOnRuns
-                                                             let timeLimit = min globalTimeLimitOnRuns' (1000000*maxruntm)
-                                                             outfromrun <- timeout timeLimit $ readCreateProcessWithExitCode (shell (unpack cmd)) ""
-                                                             case outfromrun of
-                                                               Nothing -> do let cmdtostop = ("sh " ++ localBuildingPath' ++ "stopcontainer.sh " ++ fileName ++ " " ++ localBuildingPath')
-                                                                             _ <- readCreateProcessWithExitCode (shell (unpack cmdtostop)) ""
-                                                                             return ((""::Text) ,(""::Text),(("Run timeout! The program is only allowed " ++ (pack $ show timeLimit) ++ " microseconds")::Text),(""::Text))
-                                                               Just (ecd, stdout, stderr) -> return (pack stdout, pack stderr, pack $ show ecd, fileName)
+writeAndRunGHC :: Activity -> UserId -> Text -> Text -> Text -> Int -> Int -> HandlerT App IO (Text, Text, Text, Text)
+writeAndRunGHC activity uId usernm enteredCode thecode imgsz maxruntm =  do  tim <- liftIO $ liftM show $ round `fmap` getPOSIXTime
+                                                                             localBuildingPath' <- liftIO $ localBuildingPath
+                                                                             let fileName = usernm ++ ("_"::Text) ++ (pack tim)
+                                                                             let fnm = localBuildingPath' ++ "hsfiles/" ++ fileName ++ ".hs"
+                                                                             writeFile (unpack fnm) thecode
+                                                                             let cmd = ("bash " ++ localBuildingPath' ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath' ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imgsz) 
+                                                                             globalTimeLimitOnRuns' <- liftIO $ globalTimeLimitOnRuns
+                                                                             let timeLimit = min globalTimeLimitOnRuns' (1000000*maxruntm)
+                                                                             outfromrun <- liftIO $ timeout timeLimit $ readCreateProcessWithExitCode (shell (unpack cmd)) ""
+                                                                             case outfromrun of
+                                                                               Nothing -> do let cmdtostop = ("sh " ++ localBuildingPath' ++ "stopcontainer.sh " ++ fileName ++ " " ++ localBuildingPath')
+                                                                                             _ <- liftIO $ readCreateProcessWithExitCode (shell (unpack cmdtostop)) ""
+                                                                                             return ((""::Text) ,(""::Text),(("Run timeout! The program is only allowed " ++ (pack $ show timeLimit) ++ " microseconds")::Text),(""::Text))
+                                                                               Just (ecd, stdout, stderr) -> do imid <- if hasImageResult activity 
+                                                                                                                          then writeImageInDatabase uId "" (fileName ++ ".jpeg") activity False enteredCode thecode Nothing
+                                                                                                                          else return Nothing
+                                                                                                                let imidout = case imid of
+                                                                                                                       Just imd  -> pack $ show (fromSqlKey imd)
+                                                                                                                       Nothing   -> "noimage"
+                                                                                                                return (pack stdout, pack stderr, pack $ show ecd, imidout)
+
+
+
+--writeImageInDatabase owner title fileName activity public enteredCode fullCode created modified creatorSnippet
+--savemSnippetInDb :: (Maybe StoredSnippetId) -> Text -> Text -> UserId -> Bool -> Text -> HandlerT App IO (Maybe StoredSnippetId)
+--savemSnippetInDb mSid ac tit userId isPublic theCode = do 
+--  now <- liftIO getCurrentTime
+--  case mSid of 
+--    Nothing  -> runDB $ do mid <- insertUnique $ StoredSnippet ac tit isPublic userId (contentHash theCode) now now theCode
+--                           return mid
+--    Just sid -> runDB $ do update sid [StoredSnippetSnippetContent =. theCode, StoredSnippetSnippetModified =. now, StoredSnippetSnippetTitle =. tit]
+--                           return $ Just sid
+
+writeImageInDatabase :: UserId -> Text -> Text -> Activity -> Bool -> Text -> Text -> (Maybe StoredSnippetId) -> HandlerT App IO (Maybe ImageId)
+writeImageInDatabase owner title fileName activity public enteredCode fullCode creatorSnippet = do
+  now <- liftIO getCurrentTime
+  runDB $ do mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now Nothing
+             return mid
+
+
+    
 
 

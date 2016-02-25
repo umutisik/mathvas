@@ -32,6 +32,16 @@ StoredSnippet
     snippetCreated UTCTime
     snippetContent Text
     
-
+Image
+    owner UserId
+    title Text
+    fileName Text
+    activity Text
+    public Bool
+    enteredCode Text
+    fullCode Text
+    created UTCTime
+    modified UTCTime
+    creatorSnippet StoredSnippetId Maybe
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

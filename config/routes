@@ -6,7 +6,7 @@
 
 / HomeR GET POST
 /run/ RunR POST
-/image/#Text ImageR GET
+/image/#ImageId ImageR GET
 /account/profile AccountProfileR GET PUT
 /alert/danger AlertDangerR POST
 /alert/success AlertSuccessR POST

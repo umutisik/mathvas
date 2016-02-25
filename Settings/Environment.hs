@@ -25,6 +25,9 @@ localBuildingPath :: IO Text
 --localBuildingPath = "dockerSandboxes/"
 localBuildingPath = pack <$> getEnv "LOCAL_BUILDING_PATH"
 
+imageStoragePath :: IO Text
+imageStoragePath = liftM (flip (++) "outputimages/") $ localBuildingPath 
+
 tempDefaultUserId :: Text
 tempDefaultUserId = "usertemp"
 

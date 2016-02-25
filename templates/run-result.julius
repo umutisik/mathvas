@@ -2,11 +2,11 @@ RunResult = (function() {
 
     function show(result) {
         for (var key in result) {
-            if (key == "localfilename") {
-                var imgfilnam = result[key];
+            if (key == "imageid") {
+                var imgid = result[key];
                 var selector = ".run-result .imageresult ";
                 $(selector).removeClass("hide");
-                $(selector + " .resultim").attr('src', "@{HomeR}" + "/image/" + imgfilnam + ".jpeg");
+                $(selector + " .resultim").attr('src', "@{HomeR}" + "/image/" + imgid);
             }
             else { 
                 var value = result[key];
