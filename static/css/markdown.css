@@ -14,8 +14,9 @@ code > span.er { color: #D30102; }
 h1 { margin-top: 40px; margin-bottom: 15px; }
 h2 { margin-top: 30px; margin-bottom: 15px; }
 h3 { margin-top: 30px; margin-bottom: 15px; }
+h4 { margin-top: 20px; margin-bottom: 10px; }
+h5 { font-size: 1em; margin-top: 20px; margin-bottom: 10px; }
 p { margin-top: 10px; margin-bottom: 10px; }
 code { color: black; background-color: #f4f4f4;}
 figure { margin-top: 20px; margin-bottom: 20px; text-align: center; }
 img {margin-left: auto; margin-right: auto; }
-

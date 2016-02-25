@@ -22,10 +22,16 @@ import qualified Data.Vector.Unboxed.Mutable	as MV
 
 --STUDENTCODEDELIMITER---
 -- this is the function that will be graphed 
-theFunctionToGraph = f
+-- this is the function that will be graphed 
+theFunctionToGraph = steps 10
  
-f:: R -> R
-f x = sin (pi*x) 
+steps :: Int -> R -> R
+steps k x 
+  | x>1    = 1
+  | x<0    = sin (5*pi*x)
+  | otherwise   = (fromIntegral (floor (x*k')))/k'
+        where k' = fromIntegral k
+
 
 --STUDENTCODEDELIMITER---
 
@@ -42,7 +48,7 @@ graphFunction f x y
                                           then 0 
                                           else 1
                                 where epsilon1 =0.0001
-                                      epsilon2 =0.001
+                                      epsilon2 =0.0001
                                       p1 = (x - epsilon2, f (x-epsilon2))
                                       p2 =  (x + epsilon2, f (x + epsilon2))
 

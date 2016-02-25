@@ -6,11 +6,6 @@
    max-width: 800px;
 }
 
-.h2 {
-	margin-top: 12px;
-	margin-bottom: 10px;
-}
-
 .maincont li {
   font-size: 1em;
 }
