@@ -9,7 +9,11 @@ import Data.Time.Clock.POSIX
 import System.Timeout
 import Text.Read
 import Database.Persist
-import Database.Persist.Sql (fromSqlKey)
+import Database.Persist.Sql (fromSqlKey, toSqlKey)
+--import Database.Persist.Types
+--import Database.Persist.Postgresql
+--import Database.Persist.TH
+
 
 import System.Process
 import Settings.Environment
@@ -27,7 +31,7 @@ postRunR = do (Entity userId _) <- requireAuth
                                                                                                     thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
                                                                                                     msnipid = if snipid == "none" 
                                                                                                                 then Nothing
-                                                                                                                else Just (read $ unpack snipid)
+                                                                                                                else Just (toSqlKey $ (read $ unpack snipid))
                                                                                                     codeOutput = writeAndRunGHC activity uId username jas thecode ((read $ unpack imgsz):: Int) ((read $ unpack maxruntm) :: Int) msnipid ((read $ unpack ispublic)::Bool)
                                                                                                 in (liftM makeMessage $ codeOutput)
               	         _                                                                    -> return runError 

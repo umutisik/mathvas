@@ -1,6 +1,6 @@
 <!-- <div class="container" id="editortain"> -->
 <div id="editor" class="editor">#{snippetContent snippet}
 <div id="settings" class="hide">
-    ^{settingsWidget}
+    ^{settingsWidget snippet}
 
     

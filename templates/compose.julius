@@ -33,7 +33,7 @@
                 imageSize: Settings.getImageSize(),
                 maxRunningTime: Settings.getMaxRunningTime(),
                 creatorSnippetId: "#{rawJS snippetId}",
-                isPublic: "True",
+                isPublic: Settings.getIsNextImagePublic(),
             };
         else 
             var payload = {
@@ -42,7 +42,7 @@
                 imageSize: Settings.getImageSize(),
                 maxRunningTime: Settings.getMaxRunningTime(),
                 creatorSnippetId: "none",
-                isPublic: "True",
+                isPublic: Settings.getIsNextImagePublic(),
             };
 
 

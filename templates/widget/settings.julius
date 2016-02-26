@@ -8,9 +8,14 @@ window.Settings = (function() {
         return $("#maxrunningtime").val();
     }
 
+    function getIsNextImagePublic() {
+        return $("#imagepublic").val();
+    }
+
     return {
         getMaxRunningTime: getMaxRunningTime,
         getImageSize: getImageSize,
+        getIsNextImagePublic: getIsNextImagePublic,
     };
 
 })();

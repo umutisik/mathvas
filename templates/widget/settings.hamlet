@@ -23,6 +23,13 @@ $newline never
           <option value="30">30 Sec
           <option value="60">60 Sec
     <tr>
+      $if hasImageResult (snippetActivity snippet)
+      <td>Make Next Image Public
+      <td>
+        <select id="imagepublic">
+          <option value="True" selected="selected">Yes
+          <option value="False">No
+    <tr>
       <td>
       <td>
          <button type="button" class="btn btn-success okbutton">OK

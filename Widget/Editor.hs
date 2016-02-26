@@ -12,5 +12,7 @@ editorWidget snippet numberOfLines = do
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "editor")
 
-settingsWidget :: Widget
-settingsWidget = $(widgetFile "widget/settings")
+settingsWidget :: Snippet -> Widget
+settingsWidget snippet = let activity = snippetActivity snippet
+                         in $(widgetFile "widget/settings")
+
