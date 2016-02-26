@@ -71,7 +71,7 @@ writeAndRunGHC activity uId usernm enteredCode
                                                                                              _ <- liftIO $ readCreateProcessWithExitCode (shell (unpack cmdtostop)) ""
                                                                                              return ((""::Text) ,(""::Text),(("Run timeout! The program is only allowed " ++ (pack $ show timeLimit) ++ " microseconds")::Text),(""::Text))
                                                                                Just (ecd, stdout, stderr) -> do imid <- if hasImageResult activity 
-                                                                                                                          then writeImageInDatabase uId "" (fileName ++ ".jpeg") activity isimagepublic enteredCode thecode Nothing
+                                                                                                                          then writeImageInDatabase uId "" (fileName ++ ".jpeg") activity isimagepublic enteredCode thecode snipid
                                                                                                                           else return Nothing
                                                                                                                 let imidout = case imid of
                                                                                                                        Just imd  -> pack $ show (fromSqlKey imd)
@@ -93,7 +93,7 @@ writeAndRunGHC activity uId usernm enteredCode
 writeImageInDatabase :: UserId -> Text -> Text -> Activity -> Bool -> Text -> Text -> (Maybe StoredSnippetId) -> HandlerT App IO (Maybe ImageId)
 writeImageInDatabase owner title fileName activity public enteredCode fullCode creatorSnippet = do
   now <- liftIO getCurrentTime
-  runDB $ do mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now Nothing
+  runDB $ do mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now creatorSnippet
              return mid
 
 
