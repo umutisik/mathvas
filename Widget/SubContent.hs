@@ -4,7 +4,7 @@ import Import
 import Yesod.Markdown
 import Text.Julius (rawJS)
 
-showHideWidget :: Int -> Html -> Widget
-showHideWidget idno cont = 
+showHideWidget :: Int -> Text -> Html -> Widget
+showHideWidget idno label cont = 
 	$(widgetFile "widget/showhide")
 

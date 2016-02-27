@@ -1,7 +1,7 @@
 <div class="container-fluid subcontent">
   <div class="col-md-1" id="buttons#{idno}">
-    <button class="btn btn-default btn-sm showbtn" id="show#{idno}"> Show
-    <button class="btn btn-default btn-sm hidebtn hide" id="hide#{idno}"> Hide
+    <button class="btn btn-default btn-xs showbtn" id="show#{idno}"> #{label}
+    <button class="btn btn-default btn-xs hidebtn hide" id="hide#{idno}"> Hide
   <div class="col-md-11 hide" id="showhidecontent#{idno}">
     <hr>
     #{cont}

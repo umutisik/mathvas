@@ -38,20 +38,20 @@ getLessonR lsntitle = do
         lessonsPath' <- liftIO lessonsPath
         let fpth = (((unpack lessonsPath')::FilePath) ++ ((unpack lsntitle)::FilePath) ++ ".md") 
         let listo = (markdownListFromFile fpth) 
-        lsmm <- liftIO $ do lst <- listo
-                            let htls = [ (a, (markdownToHtml') b)  | (a,b) <- lst ]
-                            return $ [ (a,b,c) | (a,(b,c))  <- (zip [1,2..] htls) ]
-
-        let handl xxx = case xxx of 
-                          (_,_,Left _) -> error "Error. Could not find or process the lesson file."
-                          (_,Normal,Right cont) -> $(widgetFile "widget/lessoncontent")
-                          (idno,ShowHide, Right cont) -> showHideWidget idno cont
-
-        sequence_ $ map handl lsmm
-
+        lsmm <- liftIO $ liftM (zip [1,2..]) listo
+        let proce x = case  x of 
+                        (_,Normal mdw) -> $(widgetFile "widget/lessoncontent")
+                                                   where cont = safeMarkdownToHtml mdw
+                        (idno,ShowHide label mdw) -> showHideWidget idno label (safeMarkdownToHtml mdw)
+        sequence_ $ map proce lsmm
+        
 
 markdownToHtml' = fmap (writePandoc markdownWriterOptions)
                          . parseMarkdown yesodDefaultReaderOptions
+
+safeMarkdownToHtml x = case (markdownToHtml' x) of
+                         Left _        -> error "Error. Could not find or process the lesson file."
+                         Right outhtml -> outhtml
 
 markdownWriterOptions = def
   { writerHtml5     = True
@@ -62,10 +62,10 @@ markdownWriterOptions = def
 
 mathJaxJsUrl = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 
-data SubContentType = Normal | ShowHide | ActiveCode
+data SubContent = Normal Markdown | ShowHide Text Markdown | ActiveCode
 
 -- | Returns the empty string if the file does not exist
-markdownListFromFile :: FilePath -> IO [(SubContentType,Markdown)]
+markdownListFromFile :: FilePath -> IO [SubContent]
 markdownListFromFile f = do
     exists  <- doesFileExist f
     content <-
@@ -81,24 +81,25 @@ markdownListFromFile f = do
             bs <- B.readFile fp
             return $ decodeUtf8With lenientDecode bs
 
-parseLesson :: Text -> [(SubContentType,Markdown)]
+parseLesson :: Text -> [SubContent]
 parseLesson inp =  case ((parse lessonParser "(unknown)" $ unpack inp)) of
                          Right out -> out
                          Left e    -> error $ "parse error in lesson file: \n" ++ (show e)
 
-lessonParser :: GenParser Char st [(SubContentType,Markdown)]
-lessonParser = do result <- manyTill ((P.try showHide) <||> normal) eof
+lessonParser :: GenParser Char st [SubContent]
+lessonParser = do result <- manyTill ((showHide) <||> normal) eof
                   return result
 
 
-showHide :: GenParser Char st (SubContentType,Markdown)
-showHide = do string "@@@"
+showHide :: GenParser Char st SubContent
+showHide = do string "@@@ "
+              label <- manyTill anyChar ((char '\n'))
               tcon <- manyTill anyChar (P.try (string "@@@"))
-              return $ (ShowHide,Markdown $ pack (tcon))
+              return $ (ShowHide (pack label) (Markdown $ pack tcon))
                      
-normal :: GenParser Char st (SubContentType,Markdown)
+normal :: GenParser Char st SubContent
 normal = do tcon <- (P.try (manyTill anyChar (lookAhead $ P.try (string "@@@"))) <||> (P.many P.anyChar))
-            return $ (Normal, Markdown $ pack tcon)
+            return $ (Normal $ Markdown (pack tcon))
 
 allLessonNames :: IO [Text]
 allLessonNames = do lessonsPath' <- lessonsPath

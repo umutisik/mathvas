@@ -152,7 +152,7 @@ g:: R -> R
 g x = x + x * x 
 ~~~
 Click 'Show' to see the answer. 
-@@@
+@@@ Show
 We know that function application is first, then multiplication, then addition
 
 ~~~haskell 
@@ -189,7 +189,7 @@ f x = -(x^2)+1
 Ok, based on the graph that appears below the run button after running, we should be able to figure out what this grapher is doing. 
 
 **Question**: Which one's the $x$ axis, which one's the $y$-axis? What $x$ and $y$ values correspond to the left, right, top and bottom ends of the picture.
-@@@
+@@@ Show Answer
 Looking at $f$, we see that $f(0) = 1$, $f(1)=0=f(-1)$. So we can see that the right end-point is $(1,0)$, left end-point is $(-1,0)$, the top end-point is $(0,1)$. So this grapher is boxed in with $-1\leq x \leq 1$ and  $-1\leq y \leq 1$.
 @@@
 
@@ -199,7 +199,7 @@ Here's a funny graph.
 ![](/image/lesson/graph_question_1.jpeg "The graph in question")
 
 Let's figure out which function is going to give us the graph above. Once you think you got it, go ahead and write it into the Graph page to see if you got it right. (Hint, you will need the number $\pi$, in Haskell, it is called `pi`) Click 'Show' below to see the answer. 
-@@@
+@@@ Show Answer
 The function looks like the sine function. But if we just graph `f x = sin x`, it doesn't look the same because it doesn't go up and down twice and end at $0$, that's why we put 
 
 ~~~haskell
@@ -270,7 +270,7 @@ $$f(x) =
 
 **Exercise** Let's write the code for this function using the `if-then-else` combo.
 
-@@@
+@@@ Show Answer
 
 We want to make $f(x)=0$ when $x<0$, $f(x)=x$ when $0<x<0.5$ and $f(x)=0.5$ for $x>0.5$.
 
