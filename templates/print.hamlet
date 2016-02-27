@@ -1,0 +1,21 @@
+$newline never
+^{navbarWidget}
+
+<div class="container-fluid maincont">
+  <div class="row">
+    <div class="container maintextcont">      
+      <div class="col-lg-12">
+        <h3> Request to Print
+        <p> Choose the snippet you would like to request to print. 
+      <div class="col-lg-12">
+        <form role="form" method="post" action="@{PrintR}">
+          <table>
+              <tr>
+                <td> 
+                  <select id="snippetselector" name="snippetselector">
+                    $forall Entity snippetid snippet <- snippetList
+                      $if hasImageResult (activityFromId $ storedSnippetSnippetActivity snippet)
+                        <option value="#{fromSqlKey $ snippetid}">#{storedSnippetSnippetTitle snippet}
+                <td> <button type="submit" class="btn btn-primary btn-xs submitbut">Submit          
+              
+

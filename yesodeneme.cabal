@@ -44,6 +44,7 @@ library
                      Handler.Snippets
                      Handler.Lesson
                      Handler.Problem
+                     Handler.Print
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug

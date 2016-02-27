@@ -28,6 +28,9 @@ localBuildingPath = pack <$> getEnv "LOCAL_BUILDING_PATH"
 imageStoragePath :: IO Text
 imageStoragePath = liftM (flip (++) "outputimages/") $ localBuildingPath 
 
+printRequestStoragePath :: IO Text
+printRequestStoragePath = liftM (flip (++) "print-requests/") $ localBuildingPath 
+
 tempDefaultUserId :: Text
 tempDefaultUserId = "usertemp"
 

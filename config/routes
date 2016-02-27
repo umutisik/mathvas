@@ -20,3 +20,5 @@
 /mycodes SnippetsR GET
 /lesson/#Text LessonR GET
 /problem/#Text ProblemR GET
+/print PrintR GET POST
+/print/sent PrintRequestSentR GET
