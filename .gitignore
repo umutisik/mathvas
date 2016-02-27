@@ -19,5 +19,6 @@ cabal.sandbox.config
 *.bmp
 dockerSandboxes/hsfiles/*
 dockerSandboxes/outputimages/*
+dockerSandboxes/print-requests/*
 
 
