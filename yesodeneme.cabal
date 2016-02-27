@@ -45,6 +45,7 @@ library
                      Handler.Lesson
                      Handler.Problem
                      Handler.Print
+                     Handler.LessonImage
                      Yesod.Auth.Simple
                      Util.Shakespare
                      Util.Slug

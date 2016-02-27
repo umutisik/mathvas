@@ -196,7 +196,7 @@ Looking at $f$, we see that $f(0) = 1$, $f(1)=0=f(-1)$. So we can see that the r
 **Exercise**: 
 Here's a funny graph. 
 
-![](/static/img/graph_question_1.jpeg "The graph in question")
+![](/image/lesson/graph_question_1.jpeg "The graph in question")
 
 Let's figure out which function is going to give us the graph above. Once you think you got it, go ahead and write it into the Graph page to see if you got it right. (Hint, you will need the number $\pi$, in Haskell, it is called `pi`) Click 'Show' below to see the answer. 
 @@@
@@ -231,7 +231,7 @@ log :: R -> R
 
 Let's say I want to define the function which has the following graph:
 
-![](/static/img/graph_question_2.jpeg "The graph in question")
+![](/image/lesson/graph_question_2.jpeg "The graph in question")
 
 I would like to say that if $x<0$ then $f(x) = -0.5$ and if  $x\geq 0$ then $f(x) = 0.5$. Here is how you write this in code:
 
@@ -254,7 +254,7 @@ f x = if (x^2<0.49) then x^2 else 0.49
 <br>
 How would you make a function with this graph?
 
-![](/static/img/graph_question_3.jpeg "The graph in question")
+![](/image/lesson/graph_question_3.jpeg "The graph in question")
 
 
 Here's how you would write this function in math:
