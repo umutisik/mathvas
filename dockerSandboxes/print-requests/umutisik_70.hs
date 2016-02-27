@@ -20,13 +20,28 @@ import qualified Data.Vector.Unboxed		as VU
 import qualified Data.Vector.Generic		as G
 import qualified Data.Vector.Unboxed.Mutable	as MV
 
+
+--STUDENTCODEDELIMITER---
 -- this is the function that will be drawn 
-theFunctionToDraw = f
+theFunctionToDraw = norma f
+
+norma f x y = f (nn x) (nn y)
+nn x = (x+1)/2
 
 f :: R -> R -> R
-f x y = x^2+y^2 
+f x y = g (rdiv x delta) (rrem x delta) y
+           where delta = 0.01
+
+g r x y = (nn $ sin (10*(r+10)*y))
+
+rdiv x y = rfloor (x/y)
+rrem x y = x - (rfloor x/y)*y
+rfloor x = fromIntegral $ floor x
 
 
+
+
+--STUDENTCODEDELIMITER---
 
 -- global settings
 defaultWidth :: Int

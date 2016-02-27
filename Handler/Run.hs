@@ -28,7 +28,9 @@ postRunR = do (Entity userId _) <- requireAuth
               let bdson = (decode body)::(Maybe RunRequest)
               case (bdson,mUserName) of               
               	         (Just (RunRequest ac jas imgsz maxruntm snipid ispublic), username) -> let activity = activityFromId ac
-                                                                                                    thecode = (activityHiddenCodeAbove activity) ++ jas ++ (activityHiddenCodeBelow activity) 
+                                                                                                    thecode = (activityHiddenCodeAbove activity) ++ "\n--STUDENTCODEDELIMITER---\n"  
+                                                                                                                                                 ++ jas ++ "\n--STUDENTCODEDELIMITER---\n" 
+                                                                                                                                                 ++  (activityHiddenCodeBelow activity) 
                                                                                                     msnipid = if snipid == "none" 
                                                                                                                 then Nothing
                                                                                                                 else Just (toSqlKey $ (read $ unpack snipid))
