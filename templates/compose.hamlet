@@ -13,7 +13,7 @@
     <div class="col-md-4">  
       $if isExistingSnippet
         <button class="btn btn-danger delete">Delete
-        <button class="btn btn-default fork"> Fork
+        <button class="btn btn-default fork"> Save & Fork
         
           
   ^{runResultWidget activity}

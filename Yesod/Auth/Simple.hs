@@ -1,7 +1,7 @@
---{-# LANGUAGE QuasiQuotes, TypeFamilies #-}
---{-# LANGUAGE OverloadedStrings #-}
---{-# LANGUAGE FlexibleContexts #-}
---{-# LANGUAGE PatternGuards #-}
+{-# LANGUAGE QuasiQuotes, TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE PatternGuards #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE Rank2Types #-}
 
@@ -17,8 +17,7 @@ module Yesod.Auth.Simple (
     confirmR,
     userExistsR,
     registerSuccessR,
-    confirmationEmailSentR,
-    getError
+    confirmationEmailSentR
 ) where
 
 import Prelude hiding (concat, length)
@@ -32,7 +31,6 @@ import Data.Text (Text, unpack, pack, concat, splitOn, toLower, length)
 import Yesod.Core
 import qualified Crypto.PasswordStore as PS
 import Text.Email.Validate (canonicalizeEmail)
-import Control.Applicative ((<$>), (<*>))
 import Yesod.Form
 import Data.Time (UTCTime, getCurrentTime, addUTCTime, diffUTCTime)
 import qualified Web.ClientSession as CS
@@ -43,6 +41,7 @@ import Data.Maybe (fromJust)
 import GHC.Generics
 import Network.HTTP.Types (status400)
 import Settings.Environment
+
 
 data Passwords = Passwords {
     pass1 :: Text,
@@ -151,7 +150,7 @@ dispatch "POST" ["login"] = postLoginR >>= sendResponse
 dispatch "GET" ["set-password"] = getSetPasswordR >>= sendResponse
 dispatch "PUT" ["set-password"] = putSetPasswordR >>= sendResponse
 dispatch "GET" ["set-password", token] = getSetPasswordTokenR token >>= sendResponse
-dispatch "POST" ["set-password", token] = postSetPasswordTokenR token >>= sendResponse
+dispatch "PUT" ["set-password", token] = putSetPasswordTokenR token >>= sendResponse
 dispatch "GET" ["reset-password"] = getResetPasswordR >>= sendResponse
 dispatch "POST" ["reset-password"] = postResetPasswordR >>= sendResponse
 dispatch "GET" ["reset-password-email-sent"] = getResetPasswordEmailSentR >>= sendResponse
@@ -178,6 +177,7 @@ getLoginR = do
         setTitle "Login"
         loginTemplate mErr
 
+
 postRegisterR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 postRegisterR = do
     clearError
@@ -200,7 +200,9 @@ postRegisterR = do
         Nothing -> do
             setError "Invalid email address"
             redirect registerR
-            
+
+
+
 
 postResetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 postResetPasswordR = do
@@ -379,16 +381,14 @@ getSetPasswordTokenR token = do
                 setTitle "Set password"
                 setPasswordTemplate (tp $ setPasswordTokenR token) mErr
 
-postSetPasswordTokenR :: YesodAuthSimple master => Text -> HandlerT Auth (HandlerT master IO) Html
-postSetPasswordTokenR token = do
+putSetPasswordTokenR :: YesodAuthSimple master => Text -> HandlerT Auth (HandlerT master IO) Value
+putSetPasswordTokenR token = do
     clearError
-    (pass1, pass2) <- lift $ runInputPost $ (,)
-        <$> ireq textField "password1"
-        <*> ireq textField "password2"
+    passwords <- requireJsonBody :: (HandlerT Auth (HandlerT master IO)) Passwords
     res <- verifyPasswordResetToken token
     case res of
-        Left msg -> invalidTokenHandler msg
-        Right uid -> setPasswordToken token uid pass1 pass2
+        Left msg -> sendResponseStatus status400 $ object ["message" .= msg]
+        Right uid -> setPassword uid passwords
 
 putSetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Value
 putSetPasswordR = do
@@ -410,23 +410,9 @@ setPassword uid passwords
                 salted <- liftIO $ saltPass (pass1 passwords)
                 _ <- lift $ updateUserPassword uid salted
                 lift onPasswordUpdated
+                let creds = Creds "simple" (toPathPiece uid) []
+                lift $ setCreds False creds
                 return $ object []
-
-setPasswordToken :: YesodAuthSimple master => Text -> AuthSimpleId master -> Text -> Text -> HandlerT Auth (HandlerT master IO) Html
-setPasswordToken token uid pass1 pass2
-    | pass1 /= pass2 = do
-        setError "Passwords does not match"
-        redirect $ setPasswordTokenR token
-    | otherwise = do
-        case checkPasswordStrength pass1 of
-            Left msg -> do
-                setError msg
-                redirect $ setPasswordTokenR token
-            Right _ -> do
-                salted <- liftIO $ saltPass pass1
-                _ <- lift $ updateUserPassword uid salted
-                lift onPasswordUpdated
-                redirect loginR
 
 saltLength :: Int
 saltLength = 5
