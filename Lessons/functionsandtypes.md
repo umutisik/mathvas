@@ -94,14 +94,14 @@ Go ahead and write this in and press 'Run', hopefully it outputs 4 and we are st
 The type in Haskell for integers ($\mathbb{Z}$, that is) is called `Integer`.
 
 ~~~haskell
-valueToPrint = squaremyint 2
+valueToPrint = squaremyinteger 2
 
 squaremyinteger :: Integer -> Integer 
-squaremtinteger n = n^2
+squaremyinteger n = n^2
 ~~~
 
 
-### Pritorities
+### Priorities
 
 When we write,
 

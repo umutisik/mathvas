@@ -112,6 +112,9 @@ mod :: Int -> Int -> Int  -- takes two ints, gives one int
    -- to use, write:     mod x 2     (gives remainder of division)
    -- or write:          x `mod` 2                
 
+min :: R -> R -> R
+max :: R -> R -> R
+
 (+) :: R -> R -> R        -- notation is different if the name is a symbol
    -- to use, write:    x + y
    -- or write:         (+) x y
