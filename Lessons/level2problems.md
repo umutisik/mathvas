@@ -37,10 +37,11 @@ Check the quick reference for the `mod` function. You don't have to use it, but 
 
 **Wobbling chess board** 
 
-![](/image/lesson/level2_04.jpeg "Problem Image")
+![](/image/lesson/level2_wobblycheckers2.jpeg "Problem Image")
 
-Notice how the amount of wobble increases as you go to the right.
-
+@@@ Show Hint
+You've already made a function `g` that draws the chess board before. Try something like: `f x y = g x (y+x/5)` and observe what happens.  
+@@@
 <br>
 
 
