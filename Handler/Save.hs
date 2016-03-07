@@ -43,7 +43,7 @@ savemSnippetInDb :: (Maybe StoredSnippetId) -> Text -> Text -> UserId -> Bool ->
 savemSnippetInDb mSid ac tit userId isPublic theCode = do 
 	now <- liftIO getCurrentTime
 	case mSid of 
-	  Nothing  -> runDB $ do mid <- insertUnique $ StoredSnippet ac tit isPublic userId (contentHash theCode) now now theCode
+	  Nothing  -> runDB $ do mid <- insertUnique $ StoredSnippet ac tit isPublic userId (contentHash theCode) now now theCode Nothing
 	                         return mid
 	  Just sid -> runDB $ do update sid [StoredSnippetSnippetContent =. theCode, StoredSnippetSnippetModified =. now, StoredSnippetSnippetTitle =. tit]
 	                         return $ Just sid

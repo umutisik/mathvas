@@ -31,7 +31,7 @@ StoredSnippet
     snippetModified UTCTime
     snippetCreated UTCTime
     snippetContent Text
-    --snippetLastImage ImageId Maybe
+    snippetLastImage ImageId Maybe
     
 Image
     owner UserId

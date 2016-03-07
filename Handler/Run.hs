@@ -7,7 +7,7 @@ import Data.Aeson (decode, Object)
 import Data.Aeson.Types (parseMaybe)
 import Data.Time.Clock.POSIX
 import System.Timeout
-import Text.Read
+import Text.Read (read)
 import Database.Persist
 import Database.Persist.Sql (fromSqlKey, toSqlKey)
 --import Database.Persist.Types
@@ -97,12 +97,51 @@ writeAndRunGHC activity uId usernm enteredCode
 --                           return $ Just sid
 
 writeImageInDatabase :: UserId -> Text -> Text -> Activity -> Bool -> Text -> Text -> (Maybe StoredSnippetId) -> HandlerT App IO (Maybe ImageId)
-writeImageInDatabase owner title fileName activity public enteredCode fullCode creatorSnippet = do
+writeImageInDatabase owner ignoredtitle fileName activity public enteredCode fullCode mSid = do
   now <- liftIO getCurrentTime
-  runDB $ do mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now creatorSnippet
-             return mid
+  case mSid of 
+    Just sId -> do creatorSnippet <- runDB $ get404 sId
+                   let title = storedSnippetSnippetTitle creatorSnippet
+                   case (storedSnippetSnippetLastImage creatorSnippet) of
+                      Nothing    -> do mid <- runDB $ insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now mSid
+                                       runDB $ update sId [StoredSnippetSnippetLastImage =. mid]
+                                       return mid
+                      Just imId -> do _ <- removeOldImageFile imId
+                                      runDB $ update imId [ImageTitle =. title, ImageFileName =. fileName, ImagePublic =. public, ImageEnteredCode =. enteredCode, ImageFullCode =. fullCode, ImageModified =. now]
+                                      return $ Just imId           
+    Nothing -> runDB $ do mid <- insertUnique $ Image owner ignoredtitle fileName (activityTitle activity) public enteredCode fullCode now now mSid
+                          return mid
 
 
-    
+  
+removeOldImageFile imId = do   im <- runDB $ get404 imId
+                               imageStoragePath' <- liftIO $ imageStoragePath
+                               --let cmd = "echo \"rm " ++ imageStoragePath' ++ (imageFileName im) ++ "\" >> " ++ imageStoragePath' ++ "testo.txt"
+                               --let cmd = "rm " ++ imageStoragePath' ++ (imageFileName im)
+                               let cmd = "mv " ++ imageStoragePath' ++ (imageFileName im) ++ " " ++ imageStoragePath' ++ "_trash/"
+                               out <- liftIO $ readCreateProcessWithExitCode (shell (unpack cmd)) ""
+                               return out
+                               
 
 
+--writeImageInDatabase :: UserId -> Text -> Text -> Activity -> Bool -> Text -> Text -> (Maybe StoredSnippetId) -> HandlerT App IO (Maybe ImageId)
+--writeImageInDatabase owner title fileName activity public enteredCode fullCode creatorSnippet = do
+--  now <- liftIO getCurrentTime
+--  runDB $ do mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now creatorSnippet
+--             return mid
+
+
+
+--writeImageInDatabase :: UserId -> Text -> Text -> Activity -> Bool -> Text -> Text -> (Maybe StoredSnippetId) -> HandlerT App IO (Maybe ImageId)
+--writeImageInDatabase owner title fileName activity public enteredCode fullCode mSid = do
+--  now <- liftIO getCurrentTime
+--  case mSid of 
+--    Just sId -> runDB $ do creatorSnippet <- get sId
+--                           case (storedSnippetSnippetLastImage creatorSnippet) of
+--                               Nothing    -> do $ mid <- insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now creatorSnippet
+--                                                  _ <- update sId [storedSnippetSnippetLastImage =. mid]
+--                                                  return mid
+--                               Just mImId -> do $ _ <- update $ mImId [ImageTitle =. title, ImageFileName =. fileName, ImagePublic =. public, ImageEnteredCode =. enteredCode, ImageFullCode =. fullCode, ImageModified =. now]
+--                                                  return mImId
+--    Nothing -> runDB $ do insertUnique $ Image owner title fileName (activityTitle activity) public enteredCode fullCode now now mSid
+--                          return mid
