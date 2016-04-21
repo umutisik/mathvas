@@ -26,12 +26,14 @@ stanzas:
     # Enable to force Keter to redirect to https
     # Can be added to any stanza
     requires-secure: false
+    #ssl: true
 
   # Static files.
   - type: static-files
     hosts:
       - static.mathvas.com
     root: ../static
+    #ssl: true
 
     # Uncomment to turn on directory listings.
     # directory-listing: true

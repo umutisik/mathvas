@@ -5,21 +5,27 @@ import System.Environment (getEnv,lookupEnv)
 import Text.Read (read)
 -- lookupEnv
 
-mandrillToken :: IO Text
---mandrillToken = return ("XA-x_poftOTL11S-tei3bg"::Text)
-mandrillToken = pack <$> getEnv "MANDRILL_TOKEN"
 
-lessonsPath :: IO Text
---lessonsPath = "Lessons/"
-lessonsPath = pack <$> getEnv "LESSONS_PATH"
+-- email
+mailgunDomain :: IO String
+mailgunDomain = getEnv "MAILGUN_DOMAIN"
 
-openRegistration :: IO Bool
---openRegistration = False
-openRegistration = (== "True") <$> getEnv "OPEN_REGISTRATION"
+mailgunApiKey :: IO String
+mailgunApiKey = getEnv "MAILGUN_API_KEY"
+
+emailFromAddress :: IO Text
+emailFromAddress = pack <$> getEnv "EMAIL_FROM_ADDRESS"
 
 adminEmail :: IO Text
 --adminEmail = "umutisik@gmail.com"
 adminEmail = pack <$> getEnv "ADMIN_EMAIL"
+
+
+-- local paths 
+
+lessonsPath :: IO Text
+--lessonsPath = "Lessons/"
+lessonsPath = pack <$> getEnv "LESSONS_PATH"
 
 localBuildingPath :: IO Text
 --localBuildingPath = "dockerSandboxes/"
@@ -30,6 +36,11 @@ imageStoragePath = liftM (flip (++) "outputimages/") $ localBuildingPath
 
 printRequestStoragePath :: IO Text
 printRequestStoragePath = liftM (flip (++) "print-requests/") $ localBuildingPath 
+
+
+
+openRegistration :: IO Bool
+openRegistration = (== "True") <$> getEnv "OPEN_REGISTRATION"
 
 tempDefaultUserId :: Text
 tempDefaultUserId = "usertemp"
