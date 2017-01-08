@@ -9,5 +9,5 @@ $newline never
         <p> Welcome! Mathvas (math canvas) is a mathematics and art workshop. 
         <p> You make art by writing mathematical code. There are tutorials inside to get you started. 
         <p> If you already have an account, please <a href="@{AuthR loginR}">log in</a>.
-        <p> If you don't, please <a href="@{AuthR registerR}">request an invitation</a>.
+        <p> If you don't, please <a href="@{AuthR registerR}">register</a>.
     
