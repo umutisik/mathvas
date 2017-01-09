@@ -12,5 +12,10 @@ Mathvas
 
 ![How it works](static/img/usage_example.png)
 
+---
+
 ![How it works](static/img/examples.png)
+
+### Contributing
+Please get in touch if you need any help getting started.
 
