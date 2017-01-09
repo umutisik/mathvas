@@ -12,6 +12,8 @@ Mathvas
 
 ![How it works](static/img/usage_example.png)
 
-<img src="static/img/new_page.png" alt="new activity page" width="250"/>
-<img src="static/img/exercises_page.png" alt="tutorial example" width="250"/>
+<center>
+<img src="static/img/new_page.png" alt="new activity page" width="300" border="1" />
+<img src="static/img/exercises_page.png" alt="tutorial example" width="300" border="1"/>
+</center>
 
