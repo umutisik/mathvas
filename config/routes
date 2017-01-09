@@ -23,4 +23,4 @@
 /problem/#Text ProblemR GET
 /print PrintR GET POST
 /print/sent PrintRequestSentR GET
-
+/.well-known/acme-challenge/#Text WellKnownR GET
