@@ -13,6 +13,6 @@ Mathvas
 ![How it works](static/img/usage_example.png)
 
 ![How it works](static/img/new_page.png)
-
 ![How it works](static/img/exercises_page.png)
+
 
