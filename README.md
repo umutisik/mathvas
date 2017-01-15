@@ -17,5 +17,5 @@ Mathvas
 ![How it works](static/img/examples.png)
 
 ## Contributing
-This web applcation uses the Yesod Framework and is deployed using Keras. Please get in touch if you need any help getting started.
+This web applcation uses the Yesod Framework and is deployed using Keter. Please get in touch if you need any help getting started.
 
