@@ -5,5 +5,5 @@ $newline never
   <p> Mathvas (math canvas) is a mathematics and art workshop that uses the Haskell programming language. 
   <p> It was made by 
     <a href="http://www.math.uci.edu/~isik">Umut Isik. 
-  <p> The web site is based on glot.io by Petter Rasmussen.
+  <p> The front end is based on glot.io by Petter Rasmussen.
   

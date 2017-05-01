@@ -20,6 +20,8 @@ $newline never
               <li :currentPage == MyCodePage:.active>
                 <!--<a href="@{UserSnippetsR $ profileUsername profile}">My Code-->
                 <a href="@{SnippetsR}">My Code
+              <li :currentPage == PrintPage:.active>
+                <a href="@{PrintR}">Print
             <li :currentPage == AboutPage:.active>
               <a href="@{AboutR}"> About
                        
@@ -37,6 +39,8 @@ $newline never
                     <a href="@{AuthR LogoutR}">Logout
             $nothing
               <li :currentPage == AccountPage:.active class="dropdown">
+                  <li>
+                    <a href="@{AuthR guestR}">Guest
                   <li>
                     <a href="@{AuthR registerR}">Register
                   <li>

@@ -6,7 +6,7 @@ $newline never
     <div class="container maintextcont">      
       <div class="col-lg-12">
         <h3> Request to Print
-        <p> Choose the snippet you would like to request to print. 
+        <p> Please note that you must be logged in as a non-guest user for us to process the print request. Choose the snippet you would like to request to print. 
       <div class="col-lg-12">
         <form role="form" method="post" action="@{PrintR}">
           <table>

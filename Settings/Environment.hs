@@ -37,8 +37,6 @@ imageStoragePath = liftM (flip (++) "outputimages/") $ localBuildingPath
 printRequestStoragePath :: IO Text
 printRequestStoragePath = liftM (flip (++) "print-requests/") $ localBuildingPath 
 
-
-
 openRegistration :: IO Bool
 openRegistration = (== "True") <$> getEnv "OPEN_REGISTRATION"
 

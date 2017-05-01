@@ -9,6 +9,7 @@ module Yesod.Auth.Simple (
     YesodAuthSimple(..),
     authSimple,
     loginR,
+    guestR,
     registerR,
     setPasswordR,
     resetPasswordR,
@@ -42,7 +43,6 @@ import GHC.Generics
 import Network.HTTP.Types (status400)
 import Settings.Environment
 
-
 data Passwords = Passwords {
     pass1 :: Text,
     pass2 :: Text
@@ -50,6 +50,9 @@ data Passwords = Passwords {
 
 instance FromJSON Passwords
 
+
+guestR :: AuthRoute
+guestR = PluginR "simple" ["guest"]
 
 loginR :: AuthRoute
 loginR = PluginR "simple" ["login"]
@@ -145,6 +148,7 @@ dispatch "POST" ["confirm", token] = postConfirmR token >>= sendResponse
 dispatch "GET" ["confirmation-email-sent"] = getConfirmationEmailSentR >>= sendResponse
 dispatch "GET" ["register-success"] = getRegisterSuccessR >>= sendResponse
 dispatch "GET" ["user-exists"] = getUserExistsR >>= sendResponse
+dispatch "GET" ["guest"] = getGuestR >>= sendResponse
 dispatch "GET" ["login"] = getLoginR >>= sendResponse
 dispatch "POST" ["login"] = postLoginR >>= sendResponse
 dispatch "GET" ["set-password"] = getSetPasswordR >>= sendResponse
@@ -177,6 +181,19 @@ getLoginR = do
         setTitle "Login"
         loginTemplate mErr
 
+getGuestR :: YesodAuthSimple master => AuthHandler master TypedContent
+getGuestR = do
+    mUid <- lift $ getUserId "guest@mathvas.com" 
+    -- let pass = "h829h498h2g"
+    case mUid of
+        Just uid -> do
+            realPass <- lift $ getUserPassword uid
+            case True of
+                True -> do
+                    let creds = Creds "simple" (toPathPiece uid) []
+                    lift $ setCredsRedirect creds
+                False -> wrongEmailOrPasswordRedirect
+        _ -> wrongEmailOrPasswordRedirect
 
 postRegisterR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 postRegisterR = do
@@ -396,6 +413,38 @@ putSetPasswordR = do
     uid <- requireUserId
     passwords <- requireJsonBody :: (HandlerT Auth (HandlerT master IO)) Passwords
     setPassword (toSimpleAuthId uid) passwords
+
+
+--putSetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Value
+--putSetPasswordR = do
+--    clearError
+--    uid <- requireUserId
+--    mgid <- lift $ getUserId "guest@mathvas.com" 
+--    passwords <- requireJsonBody :: (HandlerT Auth (HandlerT master IO)) Passwords
+--    case mgid of
+--        Just guid -> case (guid::UserId) == ((toSimpleAuthId uid)::UserId) of
+--                         True  -> setPassword (toSimpleAuthId uid) passwords
+--                         False -> setPassword (toSimpleAuthId uid) passwords
+--        _ -> setPassword (toSimpleAuthId uid) passwords
+
+
+--putSetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Value
+--putSetPasswordR = do
+--    clearError
+--    uid <- requireUserId
+--    mgid <- lift $ getUserId "guest@mathvas.com" 
+--    passwords <- requireJsonBody :: (HandlerT Auth (HandlerT master IO)) Passwords
+--    let sgid = case mgid of
+--                  Just guid -> show guid
+--                  _         -> "error_no_guest_19827349817234"
+--    let suid = show uid
+--    print uid
+--    print suid
+--    case uid == guid of
+--         True  -> redirect guestR
+--         False -> setPassword (toSimpleAuthId uid) passwords
+
+
 
 setPassword :: YesodAuthSimple master => AuthSimpleId master -> Passwords -> HandlerT Auth (HandlerT master IO) Value
 setPassword uid passwords

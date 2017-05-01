@@ -55,7 +55,7 @@ safeMarkdownToHtml x = case (markdownToHtml' x) of
 
 markdownWriterOptions = def
   { writerHtml5     = True
-  , writerWrapText  = False
+  , writerWrapText  = WrapNone
   , writerHighlight = True
   , writerHTMLMathMethod = MathJax mathJaxJsUrl
   }
@@ -87,7 +87,7 @@ parseLesson inp =  case ((parse lessonParser "(unknown)" $ unpack inp)) of
                          Left e    -> error $ "parse error in lesson file: \n" ++ (show e)
 
 lessonParser :: GenParser Char st [SubContent]
-lessonParser = do result <- manyTill ((showHide) <||> normal) eof
+lessonParser = do result <- manyTill ((showHide) <|||> normal) eof
                   return result
 
 
@@ -98,7 +98,7 @@ showHide = do string "@@@ "
               return $ (ShowHide (pack label) (Markdown $ pack tcon))
                      
 normal :: GenParser Char st SubContent
-normal = do tcon <- (P.try (manyTill anyChar (lookAhead $ P.try (string "@@@"))) <||> (P.many P.anyChar))
+normal = do tcon <- (P.try (manyTill anyChar (lookAhead $ P.try (string "@@@"))) <|||> (P.many P.anyChar))
             return $ (Normal $ Markdown (pack tcon))
 
 allLessonNames :: IO [Text]

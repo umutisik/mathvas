@@ -2,12 +2,14 @@ module Util.Util where
 
 import Import
 import Text.ParserCombinators.Parsec
-
+import qualified Data.ByteString as DB (pack)
+import qualified Data.ByteString.Char8 as DC (unpack)
+import qualified Data.Text.Encoding as DTE (encodeUtf8)
 
 parseLessonList :: FilePath -> IO [(Text,Text)]
 parseLessonList fileName = do 
-                              inp <- liftM pack $ readFile fileName
-                              return $ case (parse lessonListParser "(unknown)" inp) of
+                              inp <- liftM DC.unpack $ readFile fileName
+                              return $ case (parse lessonListParser "(unknown)" (inp)) of
                               	         Right lst -> lst
                               	         Left e    -> error $ "error parsing the lesson list:\n" ++ (show e)
 
@@ -16,7 +18,7 @@ parseLessonList fileName = do
 
 lessonListParser :: GenParser Char st [(Text,Text)]
 lessonListParser = 
-    do result <- Text.ParserCombinators.Parsec.many (line <||> skipLine)
+    do result <- Text.ParserCombinators.Parsec.many (line <|||> skipLine)
        eof
        return (filter (/= ("","")) result)
 
@@ -36,5 +38,5 @@ eol :: GenParser Char st Char
 eol = char '\n'
 
   
-(<||>) = (Text.ParserCombinators.Parsec.<|>)
+(<|||>) = (Text.ParserCombinators.Parsec.<|>)
 

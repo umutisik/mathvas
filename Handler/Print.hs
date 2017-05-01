@@ -6,6 +6,8 @@ import Database.Persist.Sql (fromSqlKey, toSqlKey)
 import Settings.Environment
 import Text.Read (read)
 import Data.Aeson
+--import qualified Data.ByteString.Lazy as DB (unpack)
+import qualified Data.Text.Encoding as DTE (encodeUtf8)
 
 postPrintR :: Handler Html
 postPrintR =  do 
@@ -25,27 +27,30 @@ getPrintRequestSentR = defaultLayout $ do
     $(widgetFile "print-request-sent")
     
 writePrintRequest selected user profile snippet = do 
-    	printRequestStoragePath' <- printRequestStoragePath
-    	let unm = profileUsername profile
-    	let uemail = userEmail user
-    	let fnm = (printRequestStoragePath' ++ unm ++ "_" ++ selected)
-    	let activity = activityFromId $ storedSnippetSnippetActivity snippet
-    	let enteredCode = storedSnippetSnippetContent snippet
-        let fullCode = (activityHiddenCodeAbove activity) ++ "\n--STUDENTCODEDELIMITER---\n" ++ enteredCode ++ "\n--STUDENTCODEDELIMITER---\n" ++ (activityHiddenCodeBelow activity) 
-        let jsonToWrite = object [ "username" .= unm
-                                   , "email" .= uemail
-                                   , "snippetTitle" .= (storedSnippetSnippetTitle snippet)
-                                   , "snippetId" .= selected
-                                   , "activity" .= (activityTitle activity)
-                                   , "enteredCode" .= enteredCode ]         
-        writeFile (unpack $ fnm ++ ".txt") (unpack $ "Username: " ++ unm
-    		                                  ++ "\nEmail: " ++ uemail
-    		                                  ++ "\nSnippet Title: " ++ (storedSnippetSnippetTitle snippet)
-    		                                  ++ "\nSnippet Id: " ++ selected
-    		                                  ++ "\nActivity: " ++ (activityTitle activity)
-    		                                  ++ "\nEntered Code: \n" ++ enteredCode)
-        writeFile (unpack $ fnm ++ ".json") $ show $ encode jsonToWrite
-        writeFile (unpack $ fnm ++ ".hs") (unpack $ fullCode) 
+    printRequestStoragePath' <- printRequestStoragePath
+    let unm = profileUsername profile
+    let uemail = userEmail user
+    let fnm = (printRequestStoragePath' ++ unm ++ "_" ++ selected)
+    let activity = activityFromId $ storedSnippetSnippetActivity snippet
+    let enteredCode = storedSnippetSnippetContent snippet
+    let fullCode = (activityHiddenCodeAbove activity) ++ "\n--STUDENTCODEDELIMITER---\n" ++ enteredCode ++ "\n--STUDENTCODEDELIMITER---\n" ++ (activityHiddenCodeBelow activity) 
+    let jsonToWrite = object [ "username" .= unm
+                               , "email" .= uemail
+                               , "snippetTitle" .= (storedSnippetSnippetTitle snippet)
+                               , "snippetId" .= selected
+                               , "activity" .= (activityTitle activity)
+                               , "enteredCode" .= enteredCode ]         
+    let details = (DTE.encodeUtf8 $ "Username: " ++ unm
+                            ++ "\nEmail: " ++ uemail
+                            ++ "\nSnippet Title: " ++ (storedSnippetSnippetTitle snippet)
+                            ++ "\nSnippet Id: " ++ selected
+                            ++ "\nActivity: " ++ (activityTitle activity)
+                            ++ "\nEntered Code: \n" ++ enteredCode)
+    writeFile (unpack $ fnm ++ ".txt") details
+    writeFile (unpack $ fnm ++ ".json") (DTE.encodeUtf8 $ pack $ show jsonToWrite)
+    writeFile (unpack $ fnm ++ ".hs") (DTE.encodeUtf8 $ fullCode) 
+    adminemailaddress <- adminEmail
+    sendEmail' [encodeUtf8 adminemailaddress] "new print request"  details
 
 
 

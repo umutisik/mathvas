@@ -155,7 +155,8 @@ instance YesodAuth App where
     -- Override the above two destinations when a Referer: header is present
     redirectToReferer _ = True
 
-    onLogin = setMessage $ successHtml "You are now logged in"
+    onLogin = setMessage $ successHtml "You are now logged in!"
+                 --redirect getNewActivityR
 
     getAuthId = return . fromPathPiece . credsIdent
 
@@ -231,7 +232,7 @@ instance YesodAuthSimple App where
         res <- getBy $ UniqueUser email
         return $ case res of
             Just (Entity uid _) -> Just uid
-            _ -> Nothing
+            _ -> Nothing    
 
     getUserPassword = runDB . fmap userPassword . get404
 
@@ -330,6 +331,7 @@ data Page = HomePage |
             MyCodePage |
             AccountPage |
             AboutPage |
+            PrintPage |
             None
             deriving Eq
 
@@ -348,12 +350,14 @@ getCurrentPage _ (Just NewActivityR) = ChoosePage
 --getCurrentPage _ (Just SnippetR) = 
 getCurrentPage _ (Just SnippetsR) = MyCodePage
 --getCurrentPage _ (Just ) = 
+getCurrentPage _ (Just PrintR) = PrintPage
 
 
 
 
 getCurrentPage _ (Just r)
     | r == AuthR loginR = AccountPage
+    | r == AuthR guestR = AccountPage
     | r == AuthR registerR = AccountPage
     | r == AuthR setPasswordR = AccountPage
     | r == AuthR resetPasswordR = AccountPage

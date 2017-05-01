@@ -13,7 +13,7 @@ import Database.Persist.Sql (fromSqlKey, toSqlKey)
 --import Database.Persist.Types
 --import Database.Persist.Postgresql
 --import Database.Persist.TH
-
+import qualified Data.Text.Encoding as DTE (encodeUtf8)
 
 import System.Process
 import Settings.Environment
@@ -67,8 +67,9 @@ writeAndRunGHC activity uId usernm enteredCode
                                                                              localBuildingPath' <- liftIO $ localBuildingPath
                                                                              let fileName = usernm ++ ("_"::Text) ++ (pack tim)
                                                                              let fnm = localBuildingPath' ++ "hsfiles/" ++ fileName ++ ".hs"
-                                                                             writeFile (unpack fnm) thecode
+                                                                             writeFile (unpack fnm) (DTE.encodeUtf8 thecode)
                                                                              let cmd = ("bash " ++ localBuildingPath' ++ "makecontainerandrun.sh " ++ fileName ++ " " ++ localBuildingPath' ++ " " ++ (pack $ show $ hasImageResult activity)) ++ " " ++ (pack $ show $ imgsz) 
+                                                                             print cmd
                                                                              globalTimeLimitOnRuns' <- liftIO $ globalTimeLimitOnRuns
                                                                              let timeLimit = min globalTimeLimitOnRuns' (1000000*maxruntm)
                                                                              outfromrun <- liftIO $ timeout timeLimit $ readCreateProcessWithExitCode (shell (unpack cmd)) ""
